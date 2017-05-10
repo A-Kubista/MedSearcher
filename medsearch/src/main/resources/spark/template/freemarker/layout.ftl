@@ -1,7 +1,7 @@
 
 <html>
 <head>
-           <title>Recruitemnt Task</title>
+           <title>Med Searcher</title>
            <#include "css/style.css">
            <#include "js/script.js">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
