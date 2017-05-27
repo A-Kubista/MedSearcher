@@ -12,7 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 import article.ArticleController;
-import jdk.internal.org.xml.sax.SAXException;
+import article.ArticleModel;
+import article.ArticleSaxHandler;
+
+import javax.xml.parsers.*;
+
+import org.xml.sax.SAXException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,9 +27,6 @@ import twitter4j.*;
 import util.*;
 import spark.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.*;
 
 
@@ -46,7 +49,7 @@ public class IndexController {
         Map<String, Object> model = new HashMap<>();
 
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    /*    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(true);
         factory.setIgnoringElementContentWhitespace(true);
 
@@ -62,6 +65,23 @@ public class IndexController {
         } catch (ParserConfigurationException e) {
         } catch (IOException e) {
         }
+*/
+
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        try {
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            ArticleSaxHandler handler = new ArticleSaxHandler();
+            saxParser.parse(new File("./src/main/resources/pubmed_result.xml"),handler);
+            //Get Employees list
+            System.out.println("zaczynam");
+            ArrayList<ArticleModel> empList = handler.getEmpList();
+
+            model.put("articles",empList);
+            System.out.println("skonczylem");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+
 
 
         model.put("templateName","search_result.ftl");

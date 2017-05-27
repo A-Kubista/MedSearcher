@@ -33,7 +33,7 @@ public class ArticleController {
             }
             tmpArticle.setDate(date_builder.toString());
             tmpArticle.setArticle_name(article.getElementsByTagName("ArticleTitle").item(0).getTextContent());
-            tmpArticle.setArticle_author(article.getElementsByTagName("LastName").item(0).getTextContent());
+            tmpArticle.setAuthor(article.getElementsByTagName("LastName").item(0).getTextContent());
             result.add(tmpArticle);
         }
         return result;

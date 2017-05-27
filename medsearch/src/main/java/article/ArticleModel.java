@@ -7,7 +7,9 @@ import lombok.Data;
  */
 @Data
 public class ArticleModel {
-    private String date;
-    private String article_name;
-    private String article_author;
+
+    private String date = "";
+    private String article_name = "";
+    private String author = "";
+    private String article_content = "";
 }
