@@ -12,4 +12,5 @@ public class ArticleModel {
     private String article_name = "";
     private String author = "";
     private String article_content = "";
+    private String id = "";
 }

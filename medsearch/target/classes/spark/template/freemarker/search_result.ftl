@@ -1,9 +1,19 @@
 
  <div class="col-sm-6  col-md-offset-3">
     <#list articles as article>
-         <p>${article.date}</p>
-         <p>${article.article_name}</p>
-          <p>${article.article_content}</p>
-             <p>${article.author}</p>
-   </#list>
- </div>
+       <div class="row tweet "   id = ${article.id}>
+             <div class="col-sm-12 tweet_text">
+                    <div class="row">
+                        <div class="col-sm-9 ">
+                               <h3 class = "tweet_title">${article.article_name}</h3>
+                        </div>
+                        <div class="col-sm-3 ">
+                               <p>${article.date}</p>
+                        </div>
+                    </div>
+                               <p>${article.article_content}</p>
+                                 <p>${article.author}</p>
+             </div>
+       </div>
+     </#list>
+     </div>

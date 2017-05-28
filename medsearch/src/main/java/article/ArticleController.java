@@ -3,39 +3,49 @@ package article;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import spark.Request;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by wilek on 2017-05-15.
  */
 public class ArticleController {
-    NodeList articles;
 
     public ArticleController() {
 
     }
 
-    public ArticleController(NodeList articles) {
-        this.articles = articles;
-    }
 
-    public ArrayList<ArticleModel> getPorcessedArticles(NodeList articles) {
-        ArrayList<ArticleModel> result = new ArrayList<>();
-        ArticleModel tmpArticle = new ArticleModel();
-        for( int i  = 0 ; i < 40 ; i ++){
-            Element article = (Element) articles.item(i);
-            Node date =  article.getElementsByTagName("DateCreated").item(0);
-            StringBuilder date_builder = new StringBuilder();
-            NodeList dated_children = date.getChildNodes();
-            for(int j = 0 ; j < dated_children.getLength(); j++ ){
-                date_builder.append(dated_children.item(j).getTextContent()).append(" ");
+    public ArrayList<ArticleModel> getPorcessedArticles(Request request) {
+        ArrayList<ArticleModel> empList = request.session().attribute("article_list");
+        int article_count = 20;
+        Object last_count = request.queryParams("article_count");
+        if(last_count != null)
+            article_count += Integer.parseInt((String)last_count);
+        if( empList == null) {
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            try {
+                SAXParser saxParser = saxParserFactory.newSAXParser();
+                ArticleSaxHandler handler = new ArticleSaxHandler(article_count);
+                saxParser.parse(new File("./src/main/resources/pubmed_result.xml"), handler);
+                //Get Employees list
+                System.out.println("zaczynam");
+                empList = handler.getEmpList();
+                request.session().attribute("article_list", empList);
+                System.out.println("skonczylem");
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                e.printStackTrace();
             }
-            tmpArticle.setDate(date_builder.toString());
-            tmpArticle.setArticle_name(article.getElementsByTagName("ArticleTitle").item(0).getTextContent());
-            tmpArticle.setAuthor(article.getElementsByTagName("LastName").item(0).getTextContent());
-            result.add(tmpArticle);
         }
-        return result;
+
+
+        return empList;
     }
 }

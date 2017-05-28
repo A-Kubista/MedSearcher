@@ -4,7 +4,8 @@
        if(result != 0){
                 result = document.getElementById(result);
              if(result != null && result.id > 20){
-                     window.scrollTo(0,result.scrollHeight);
+                   //  window.scrollTo(0,result.scrollHeight);
+                   document.getElementById(result.id - 20).scrollIntoView();
              }else{
                 window.scrollTo(0,document.body.scrollHeight);
              }
@@ -14,9 +15,9 @@
  function nextTweets(){
     result = getTweetParamValue();
     if(result != 0){
-        window.location.href =   updateUrlParameter(window.location.href ,"tweets_num",parseInt(result) + 20);
+        window.location.href =   updateUrlParameter(window.location.href ,"article_count",parseInt(result) + 20);
     }else{
-       insertParam("tweets_num",20);
+       insertParam("article_count",20);
     }
     window.scrollTo(0,document.body.scrollHeight);
 }
@@ -47,7 +48,7 @@ function insertParam(key, value)
 function getTweetParamValue(){
    var url =  window.location.href ;
    try {
-     var captured = /tweets_num=([^&]+)/.exec(url)[1];
+     var captured = /article_count=([^&]+)/.exec(url)[1];
     }catch(err) {
          captured = 0;
    }

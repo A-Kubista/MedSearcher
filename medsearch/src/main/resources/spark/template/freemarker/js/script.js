@@ -14,9 +14,9 @@
  function nextTweets(){
     result = getTweetParamValue();
     if(result != 0){
-        window.location.href =   updateUrlParameter(window.location.href ,"tweets_num",parseInt(result) + 20);
+        window.location.href =   updateUrlParameter(window.location.href ,"article_count",parseInt(result) + 20);
     }else{
-       insertParam("tweets_num",20);
+       insertParam("article_count",20);
     }
     window.scrollTo(0,document.body.scrollHeight);
 }

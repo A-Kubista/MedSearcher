@@ -38,7 +38,7 @@ import java.util.*;
 
 
 public class IndexController {
-    public static final int TWEET_STARTING_COUNT = 20;
+    public static final int ARTICLES_STARTING_COUNT = 20;
 
     /**
      *  Integration with Twitter Api
@@ -49,38 +49,9 @@ public class IndexController {
         Map<String, Object> model = new HashMap<>();
 
 
-    /*    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(true);
-        factory.setIgnoringElementContentWhitespace(true);
-
-        try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            File file = new File("./src/main/resources/pubmed_result.xml");
-            Document doc = builder.parse(file);
-           NodeList articles =  doc.getElementsByTagName("PubmedArticle");
 
             ArticleController articleController = new ArticleController();
-            model.put("articles",articleController.getPorcessedArticles(articles));
-            // Do something with the document here.
-        } catch (ParserConfigurationException e) {
-        } catch (IOException e) {
-        }
-*/
-
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        try {
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            ArticleSaxHandler handler = new ArticleSaxHandler();
-            saxParser.parse(new File("./src/main/resources/pubmed_result.xml"),handler);
-            //Get Employees list
-            System.out.println("zaczynam");
-            ArrayList<ArticleModel> empList = handler.getEmpList();
-
-            model.put("articles",empList);
-            System.out.println("skonczylem");
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+            model.put("articles",articleController.getPorcessedArticles(request));
 
 
 
