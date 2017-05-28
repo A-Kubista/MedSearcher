@@ -2,21 +2,31 @@
  document.onreadystatechange = function () {
      result = getTweetParamValue();
        if(result != 0){
-                result = document.getElementById(result);
-             if(result != null && result.id > 20){
-                     window.scrollTo(0,result.scrollHeight);
-             }else{
-                window.scrollTo(0,document.body.scrollHeight);
+                result = document.getElementById(result - 20);
+             if(result != null){
+
+                   window.scroll(0,findPos(document.getElementById(result.id )));
+
              }
        }
  }
+
+function findPos(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    return [curtop];
+    }
+}
 
  function nextTweets(){
     result = getTweetParamValue();
     if(result != 0){
         window.location.href =   updateUrlParameter(window.location.href ,"article_count",parseInt(result) + 20);
     }else{
-       insertParam("article_count",20);
+       insertParam("article_count",40);
     }
     window.scrollTo(0,document.body.scrollHeight);
 }
@@ -47,7 +57,7 @@ function insertParam(key, value)
 function getTweetParamValue(){
    var url =  window.location.href ;
    try {
-     var captured = /tweets_num=([^&]+)/.exec(url)[1];
+     var captured = /article_count=([^&]+)/.exec(url)[1];
     }catch(err) {
          captured = 0;
    }

@@ -2,15 +2,27 @@
  document.onreadystatechange = function () {
      result = getTweetParamValue();
        if(result != 0){
-                result = document.getElementById(result);
+                result = document.getElementById(result - 21);
              if(result != null && result.id > 20){
-                   //  window.scrollTo(0,result.scrollHeight);
-                   document.getElementById(result.id - 20).scrollIntoView();
+
+                   window.scroll(0,findPos(document.getElementById(result.id )));
+
              }else{
+                 console.log(result);
                 window.scrollTo(0,document.body.scrollHeight);
              }
        }
  }
+
+function findPos(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    return [curtop];
+    }
+}
 
  function nextTweets(){
     result = getTweetParamValue();
