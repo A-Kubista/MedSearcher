@@ -18,34 +18,39 @@ import java.util.ArrayList;
  */
 public class ArticleController {
 
+    public static final int ARTICLE_COUNT_BASE = 20;
     public ArticleController() {
 
     }
 
 
     public ArrayList<ArticleModel> getPorcessedArticles(Request request) {
-        ArrayList<ArticleModel> empList = request.session().attribute("article_list");
-        int article_count = 20;
+        int article_count = ARTICLE_COUNT_BASE;
+        ArrayList empList = request.session().attribute("article_list");
+        if (empList == null) {
+            empList = new ArrayList<>();
+        }
+
         Object last_count = request.queryParams("article_count");
         if(last_count != null)
-            article_count += Integer.parseInt((String)last_count);
-        if( empList == null) {
+            article_count = Integer.parseInt((String)last_count);
+        if(article_count <= empList.size()){
+            empList = new ArrayList<ArticleModel> (empList.subList(0,article_count));
+        }else {
+
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             try {
                 SAXParser saxParser = saxParserFactory.newSAXParser();
-                ArticleSaxHandler handler = new ArticleSaxHandler(article_count);
+                ArticleSaxHandler handler = new ArticleSaxHandler(article_count, empList.size());
                 saxParser.parse(new File("./src/main/resources/pubmed_result.xml"), handler);
                 //Get Employees list
-                System.out.println("zaczynam");
-                empList = handler.getEmpList();
+                empList.addAll(handler.getEmpList());
                 request.session().attribute("article_list", empList);
-                System.out.println("skonczylem");
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 e.printStackTrace();
             }
+
         }
-
-
         return empList;
     }
 }
