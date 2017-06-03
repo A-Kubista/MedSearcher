@@ -1,12 +1,9 @@
 package article;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Created by wilek on 2017-05-27.
@@ -90,7 +87,7 @@ public class ArticleSaxHandler extends DefaultHandler {
             if(counter >= start_index && counter < article_count) {
                 if (title) {
                     //age element, set Employee age
-                    emp.setArticle_name(new String(ch, start, length));
+                    emp.setTitle(new String(ch, start, length));
                     title = false;
                 } else if (last_name) {
                     emp.setAuthor(new String(ch, start, length));
@@ -100,7 +97,7 @@ public class ArticleSaxHandler extends DefaultHandler {
                     if (!(tmp.isEmpty() || tmp == null || tmp.equals("null")))
                         emp.setDate(emp.getDate() + "-" + tmp);
                 } else if (content) {
-                    emp.setArticle_content(emp.getArticle_content() + "-" + new String(ch, start, length));
+                    emp.setContent(emp.getContent() + "-" + new String(ch, start, length));
                 }
             }
 

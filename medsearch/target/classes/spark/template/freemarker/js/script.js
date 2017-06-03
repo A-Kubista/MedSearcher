@@ -4,8 +4,7 @@
        if(result != 0){
                 result = document.getElementById(result);
              if(result != null && result.id > 20){
-                   //  window.scrollTo(0,result.scrollHeight);
-                   document.getElementById(result.id - 20).scrollIntoView();
+                     window.scrollTo(0,result.scrollHeight);
              }else{
                 window.scrollTo(0,document.body.scrollHeight);
              }
@@ -48,7 +47,7 @@ function insertParam(key, value)
 function getTweetParamValue(){
    var url =  window.location.href ;
    try {
-     var captured = /article_count=([^&]+)/.exec(url)[1];
+     var captured = /tweets_num=([^&]+)/.exec(url)[1];
     }catch(err) {
          captured = 0;
    }

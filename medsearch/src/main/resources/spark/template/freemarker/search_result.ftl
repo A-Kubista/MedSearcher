@@ -5,13 +5,13 @@
              <div class="col-sm-12 tweet_text">
                     <div class="row">
                         <div class="col-sm-9 ">
-                               <h3 class = "tweet_title">${article.article_name}</h3>
+                               <h3 class = "tweet_title">${article.title}</h3>
                         </div>
                         <div class="col-sm-3 ">
                                <p>${article.date}</p>
                         </div>
                     </div>
-                               <p>${article.article_content}</p>
+                               <p>${article.content}</p>
                                  <p>${article.author}</p>
              </div>
        </div>
