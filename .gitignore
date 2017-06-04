@@ -45,3 +45,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Target folder
+medsearch/target/*
+medsearch/src/main/resources/*.xml

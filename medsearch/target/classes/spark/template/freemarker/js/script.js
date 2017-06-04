@@ -4,9 +4,13 @@
        if(result != 0){
                 result = document.getElementById(result - 21);
              if(result != null && result.id > 20){
+<<<<<<< HEAD
 
                    window.scroll(0,findPos(document.getElementById(result.id )));
 
+=======
+                     window.scrollTo(0,result.scrollHeight);
+>>>>>>> origin/master
              }else{
                  console.log(result);
                 window.scrollTo(0,document.body.scrollHeight);
@@ -60,7 +64,6 @@ function insertParam(key, value)
 function getTweetParamValue(){
    var url =  window.location.href ;
    try {
-     var captured = /article_count=([^&]+)/.exec(url)[1];
     }catch(err) {
          captured = 0;
    }

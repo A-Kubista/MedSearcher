@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import spark.Request;
+import textProcessing.Dictionary;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -18,18 +19,22 @@ import java.util.ArrayList;
  */
 public class ArticleController {
 
-    public static final int ARTICLE_COUNT_BASE = 20;
+    public static final int ARTICLE_COUNT_BASE = 50;
+
     public ArticleController() {
 
     }
 
-
+    //TODO: przerobić na wczytywanie wszystkich plików medline*.xml z folderu ./src/main/resources/
     public ArrayList<ArticleModel> getPorcessedArticles(Request request) {
         int article_count = ARTICLE_COUNT_BASE;
+
+
+
         ArrayList empList = request.session().attribute("article_list");
         if (empList == null) {
             empList = new ArrayList<>();
-        }
+       }
 
         Object last_count = request.queryParams("article_count");
         if(last_count != null)
@@ -51,6 +56,11 @@ public class ArticleController {
             }
 
         }
+
+
+
+
+
         return empList;
     }
 }

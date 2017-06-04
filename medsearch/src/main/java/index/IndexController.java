@@ -4,30 +4,18 @@ package index;
  * Created by wilek on 2017-05-10.
  */
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import article.ArticleContainer;
 import article.ArticleController;
 import article.ArticleModel;
-import article.ArticleSaxHandler;
 
-import javax.xml.parsers.*;
-
-import org.xml.sax.SAXException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import twitter4j.*;
+import textProcessing.Dictionary;
+import textProcessing.TextProcessingController;
 import util.*;
 import spark.*;
-
-import java.util.*;
 
 
 
@@ -48,17 +36,38 @@ public class IndexController {
     public static Route serveIndexPage = (Request request, Response response) -> {
         Map<String, Object> model = new HashMap<>();
 
+            //TODO: jeśli pierwsze zapytanie, to należy wczytać dane (wszytkie dane, które wystarczy pobrać i przetworzyć raz (artykuły, słownik MESH, indeksowanie dokumentów itp.)
+            //TODO: mainController powinien zostać zapisane w sesji
+            TextProcessingController mainController = prepareData(request);
 
+            //TODO: przekazać do zapisanego w sesji kontrolera aktualnie przetwarzane zapytania
+            mainController.processQuery("migraine treatment");
+            //for(ArticleContainer a: mainController.getSortedArticles()){
+            //    System.out.println(a+"\n\n\n");
+            //}
 
-            ArticleController articleController = new ArticleController();
-            model.put("articles",articleController.getPorcessedArticles(request));
-
-
+            model.put("articles",mainController.getArticleList());
 
         model.put("templateName","search_result.ftl");
 
         return ViewUtil.render(request, model, Path.Template.INDEX);
     };
+
+    //TODO: Przebudować articleController.getPorcessedArticles tak, by nie wymagała requesta
+    private static TextProcessingController prepareData(Request request){
+
+        //TODO: Kontroler artykułów chyba może być statyczny
+        ArticleController articleController = new ArticleController();
+        List<ArticleModel> articleList = articleController.getPorcessedArticles(request);
+
+        //TODO: wczytanie słownika MESH z pliku mesh2017.xml - sposób budowania słownika przedstawiony został w Dictionary.testDictionary()
+        //Dictionary MESHdictionary = new Dictionary();
+        Dictionary MESHdictionary = Dictionary.testDictionary();
+
+        TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
+
+        return textProcessingController;
+    }
 
 
 }
