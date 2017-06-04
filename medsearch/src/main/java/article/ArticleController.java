@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ArticleController {
 
-    public static final int ARTICLE_COUNT_BASE = 20;
+    public static final int ARTICLE_COUNT_BASE = 50;
 
     public ArticleController() {
 
@@ -34,7 +34,7 @@ public class ArticleController {
         ArrayList empList = request.session().attribute("article_list");
         if (empList == null) {
             empList = new ArrayList<>();
-        }
+       }
 
         Object last_count = request.queryParams("article_count");
         if(last_count != null)

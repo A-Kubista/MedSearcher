@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import article.ArticleContainer;
 import article.ArticleController;
 import article.ArticleModel;
 
@@ -40,7 +41,10 @@ public class IndexController {
             TextProcessingController mainController = prepareData(request);
 
             //TODO: przekazać do zapisanego w sesji kontrolera aktualnie przetwarzane zapytania
-            mainController.processQuery("Migrain Tension-Type Headache");
+            mainController.processQuery("migraine treatment");
+            //for(ArticleContainer a: mainController.getSortedArticles()){
+            //    System.out.println(a+"\n\n\n");
+            //}
 
             model.put("articles",mainController.getArticleList());
 

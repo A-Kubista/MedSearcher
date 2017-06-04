@@ -29,11 +29,6 @@ public class Query {
         vectorTF = Indexer.createTFVector(dictionary,indexedQuery);
         vectorIDF = Indexer.timesVectors(dictionary,idfs,vectorTF);
 
-        System.out.println("TUDAJ");
-        for(Term t: dictionary){
-            System.out.print(vectorTF.get(t)+"\t");
-        }
-
         weights = new HashMap<>();
         for(Term t: indexedQuery){
             weights.put(t,1.0);

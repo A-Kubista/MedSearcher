@@ -40,17 +40,10 @@ public class DataContainer {
     }
 
     private void prepareVectors(){
-        dictionary.clear();
-
-        for (ArticleModel article: articles) {
-            List<Term> terms = article.getAllTerms();
-            for(Term qt: terms){
-                dictionary.add(qt);
-            }
-        }
 
         for (ArticleModel article: articles) {
             article.createTFVectors(dictionary);
+            article.createDMIVector();
         }
 
         this.vectorTF = Indexer.createVector(dictionary);

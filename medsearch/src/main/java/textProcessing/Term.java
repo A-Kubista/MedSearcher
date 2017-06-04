@@ -43,6 +43,16 @@ public class Term implements Comparable{
         return super.equals(obj);
     }
 
+    @Override
+    public int hashCode(){
+        int hash = 7;
+        for(int i=0;i<this.getNormalizedName().length();i++){
+            hash = hash*3+this.getNormalizedName().charAt(i);
+        }
+        return hash;
+    }
+
+    @Override
     public int compareTo(Object obj){
         Term t = (Term) obj;
         return this.name.compareTo(t.getName());

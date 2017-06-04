@@ -1,9 +1,8 @@
 package article;
 
-import textProcessing.Dictionary;
-import textProcessing.Indexer;
-import textProcessing.Term;
+import textProcessing.*;
 import lombok.Data;
+import textProcessing.Dictionary;
 
 import java.util.*;
 
@@ -34,6 +33,8 @@ public class ArticleModel {
     private Map<Term,Double> vectorIDFContent;
     private Map<Term,Double> vectorIDFKeyWords;
 
+    private Map<Term,Double> vectorDMI;
+
     public ArticleModel(){
         keyWords = new ArrayList<>();
     }
@@ -58,6 +59,21 @@ public class ArticleModel {
 
         this.vectorTF = Indexer.sumVectors(this.vectorTFTitle,this.vectorTFContent);
         this.vectorTF = Indexer.sumVectors(this.vectorTF,this.vectorTFKeyWords);
+    }
+
+    public void createDMIVector(){
+
+        vectorDMI = new HashMap<>();
+
+        Set<Term> terms = this.vectorTF.keySet();
+        for(Term term: terms){
+            if(term instanceof DictionaryTerm){
+                vectorDMI.put(term,(new Double(vectorTF.get(term)))* TextProcessingConstants.DICTIONARY_TERM_WEIGHT);
+            }
+            else{
+                vectorDMI.put(term,new Double(vectorTF.get(term)));
+            }
+        }
     }
 
     public void createIDFVectors(Map<Term,Double> idfs,SortedSet<Term> dictionary){

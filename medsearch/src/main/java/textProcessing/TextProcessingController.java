@@ -4,8 +4,7 @@ import article.ArticleContainer;
 import article.ArticleModel;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LU on 2017-06-02.
@@ -21,9 +20,30 @@ public class TextProcessingController {
         sortedArticles = new ArrayList<>();
     }
 
+    /**
+     * Zmiana zapytania do procesowania
+     * @param queryString nowe zapytania
+     */
     public void processQuery(String queryString){
         query = new Query(queryString,dataContainer.getMeshDictionary(),dataContainer.getDictionary(),dataContainer.getVectorIDF());
         prepareRanking();
+    }
+
+    /**
+     * Zmiana wag termów w zapytania
+     * @param weights mapa zawierająca Termy i nowe wagi
+     */
+    public void changeWeights(Map<Term,Double> weights){
+        query.changeWeights(dataContainer.getDictionary(),weights);
+        this.prepareRanking();
+    }
+
+    /**
+     * Zmiana sposobu sortowania
+     * @param sortingType nowy typ sortowania
+     */
+    public void sort(TextProcessingConstants.SortingType sortingType){
+        ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
     }
 
     private void prepareRanking(){
@@ -35,10 +55,16 @@ public class TextProcessingController {
             sortedArticles.add(conrainer);
         }
 
-        ArticleContainer.sortArticleContainers(ArticleContainer.SORT_BY_IDF,sortedArticles);
+        sort(TextProcessingConstants.SortingType.SORT_BY_LTI);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTInumber(i+1);
+
+        sort(TextProcessingConstants.SortingType.SORT_BY_DMI);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setDMInumber(i+1);
+
+        sort(TextProcessingConstants.SortingType.SORT_BY_IDF);
         for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setIDFnumber(i+1);
 
-        ArticleContainer.sortArticleContainers(ArticleContainer.SORT_BY_TF,sortedArticles);
+        sort(TextProcessingConstants.SortingType.SORT_BY_TF);
         for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setTFnumber(i+1);
 
     }

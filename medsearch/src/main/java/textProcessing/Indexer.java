@@ -146,7 +146,25 @@ public class Indexer {
             norm1 += Math.pow(vector1.get(t), 2);
             norm2 += Math.pow(vector2.get(t), 2);
         }
-        return dotProduct / (Math.sqrt(norm1) * Math.sqrt(norm2));
+
+        double res = dotProduct / (Math.sqrt(norm1) * Math.sqrt(norm2));
+
+        return (Double.isNaN(res))? 0.0 : res;
+    }
+
+    public static double countLTI(Map<Term,Double> keyWords, Map<Term,Double> content, Map<Term,Double> title, Map<Term,Double> query){
+        double LTI, TFtitle, TFcontent, TFkeyWords;
+
+        TFtitle = Indexer.cosineSimilarity(title,query);
+        TFcontent = Indexer.cosineSimilarity(content,query);
+        TFkeyWords = Indexer.cosineSimilarity(keyWords,query);
+
+        LTI = (TFtitle>TFkeyWords)?TFtitle:TFkeyWords;
+        if(TFcontent>TextProcessingConstants.CONTENT_SIGNIFICANCE){
+            LTI = LTI + (1.0-LTI)*TFcontent;
+        }
+
+        return LTI;
     }
 
 }
