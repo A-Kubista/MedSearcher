@@ -99,6 +99,7 @@ public class ArticleModel {
         return res;
     }
 
+
     public static List<ArticleModel> testArticles(){
         List<ArticleModel> result = new ArrayList<>();
 
@@ -155,4 +156,9 @@ public class ArticleModel {
         return result;
     }
 
+    public String getDate(ArticleSaxHandler context) {
+        if(!date.isEmpty())
+            return  date + "-";
+        return date;
+    }
 }

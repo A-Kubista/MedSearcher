@@ -78,6 +78,11 @@ public class ArticleSaxHandler extends DefaultHandler {
                 } else if(counter >= start_index && counter < article_count) {
                     if (qName.equalsIgnoreCase("DateCreated")) {
                         date = false;
+                    }else if (qName.equalsIgnoreCase("LastName")) {
+                        last_name = false;
+                    }
+                    else if (qName.equalsIgnoreCase("AbstractText")) {
+                        content = false;
                     }
                 }
         }
@@ -90,14 +95,15 @@ public class ArticleSaxHandler extends DefaultHandler {
                     emp.setTitle(new String(ch, start, length));
                     title = false;
                 } else if (last_name) {
-                    emp.setAuthor(new String(ch, start, length));
+                    emp.setAuthor(emp.getAuthor() + ", " + new String(ch, start, length));
                     last_name = false;
                 } else if (date) {
                     String tmp = new String(ch, start, length);
-                    if (!(tmp.isEmpty() || tmp == null || tmp.equals("null")))
-                        emp.setDate(emp.getDate() + "-" + tmp);
+                    if (!(tmp.isEmpty() || tmp.equals("null")))
+                        emp.setDate(emp.getDate(this)  + tmp);
                 } else if (content) {
-                    emp.setContent(emp.getContent() + "-" + new String(ch, start, length));
+                    emp.setContent(emp.getContent() + "<p>     " + new String(ch, start, length) + "</p>");
+                    content = false;
                 }
             }
 
