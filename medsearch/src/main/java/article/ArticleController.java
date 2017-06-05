@@ -25,42 +25,44 @@ public class ArticleController {
 
     }
 
-    //TODO: przerobić na wczytywanie wszystkich plików medline*.xml z folderu ./src/main/resources/
-    public ArrayList<ArticleModel> getPorcessedArticles(Request request) {
+    public  ArrayList<ArticleModel> parseXmls(){
+        ArrayList parsedXmls = new ArrayList();
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        final File folder = new File("./src/main/resources/articles");
+            for (final File fileEntry : folder.listFiles()) {
+                try {
+                    SAXParser saxParser = saxParserFactory.newSAXParser();
+                    ArticleSaxHandler handler = new ArticleSaxHandler();
+                    saxParser.parse(fileEntry, handler);
+                    //Get Employees list
+                    parsedXmls.addAll(handler.getEmpList());
+
+                } catch (ParserConfigurationException | SAXException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return parsedXmls;
+    }
+
+    public ArrayList<ArticleModel> getProcessedArticles(Request request) {
         int article_count = ARTICLE_COUNT_BASE;
-
-
 
         ArrayList empList = request.session().attribute("article_list");
         if (empList == null) {
-            empList = new ArrayList<>();
+            empList = parseXmls();
+            //request.session().attribute("article_list", empList);
        }
 
+ /*
         Object last_count = request.queryParams("article_count");
         if(last_count != null)
             article_count = Integer.parseInt((String)last_count);
         if(article_count <= empList.size()){
             empList = new ArrayList<ArticleModel> (empList.subList(0,article_count));
         }else {
-
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            try {
-                SAXParser saxParser = saxParserFactory.newSAXParser();
-                ArticleSaxHandler handler = new ArticleSaxHandler(article_count, empList.size());
-                saxParser.parse(new File("./src/main/resources/pubmed_result.xml"), handler);
-                //Get Employees list
-                empList.addAll(handler.getEmpList());
-                request.session().attribute("article_list", empList);
-            } catch (ParserConfigurationException | SAXException | IOException e) {
-                e.printStackTrace();
-            }
-
+            request.session().attribute("article_list", empList);
         }
-
-
-
-
-
+ */
         return empList;
     }
 }

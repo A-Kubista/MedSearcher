@@ -18,7 +18,7 @@
                                                           <div class="form-group">
                                                               <div class="row">
                                                                   <div class="col-sm-7  col-md-offset-2">
-                                                                         <input class="form-control" type='text' id="summary" name='filter' placeholder="Search" />
+                                                                         <input class="form-control" type='text' id="summary" name='query' placeholder="Search" />
                                                                   </div>
                                                                    <div class="col-sm-1">
                                                                         <input type='submit' value='Search' class="btn btn-primary"/>
@@ -32,9 +32,30 @@
 
        <div class="jumbotron text-center">
           <p>Pub Med searcher</p>
+
+           <div class="col-sm-6 query offset-md-3 well well-sm">
+                <div class="row">
+                      <div class="col-sm-2">
+                           <div class="dropdown">
+                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort by
+                               <span class="caret"></span></button>
+                               <ul class="dropdown-menu">
+                                   <li><a href="#">HTML</a></li>
+                                   <li><a href="#">CSS</a></li>
+                                   <li><a href="#">JavaScript</a></li>
+                               </ul>
+                           </div>
+                      </div>
+                      <div class="col-sm-6 query offset-md-2">
+                        <h4> ${query}</h4>
+                      </div>
+                </div>
+           </div>
+
         </div>
 
-      <div class="container">
+         <div class="container">
+
           <#include "${templateName}">
            <div class="col-sm-2  col-md-offset-5">
                 <button type="button" class="btn btn-info"  onclick="nextTweets()">More</button>

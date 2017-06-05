@@ -1,7 +1,14 @@
 package textProcessing;
 
+import article.ArticleSaxHandler;
 import lombok.Data;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +20,20 @@ public class Dictionary {
     private List<DictionaryTerm> terms;
 
     public Dictionary(){
-        terms = new ArrayList<>();
+        DictionarySaxHandler handler = new DictionarySaxHandler();
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        SAXParser saxParser = null;
+        try {
+            saxParser = saxParserFactory.newSAXParser();
+            saxParser.parse(new File("./src/main/resources/mesh2017.xml"), handler);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        terms = handler.getEmpList();
     }
 
     public void addTerm(DictionaryTerm term){

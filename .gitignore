@@ -49,3 +49,6 @@ Temporary Items
 # Target folder
 medsearch/target/*
 medsearch/src/main/resources/*.xml
+
+# XMl
+.xml

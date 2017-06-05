@@ -42,7 +42,7 @@ public class TextProcessingController {
      * Zmiana sposobu sortowania
      * @param sortingType nowy typ sortowania
      */
-    public void sort(TextProcessingConstants.SortingType sortingType){
+    public void sort(int  sortingType){
         ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
     }
 

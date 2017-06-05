@@ -5,14 +5,14 @@
              <div class="col-sm-12 tweet_text">
                     <div class="row">
                         <div class="col-sm-9 ">
-                               <h3 class = "tweet_title"  id = ${article.id} >${article.title}</h3>
+                               <h3 class = "tweet_title"  id = ${article.article.id} >${article.article.title}</h3>
                         </div>
                         <div class="col-sm-3 ">
-                               <p>${article.date}</p>
+                               <p>${article.article.date}</p>
                         </div>
                     </div>
-                               <p>${article.content}</p>
-                                 <p>${article.author}</p>
+                               <p>${article.article.content}</p>
+                                 <p>${article.article.author}</p>
              </div>
        </div>
      </#list>

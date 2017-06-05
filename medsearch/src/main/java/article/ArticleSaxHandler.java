@@ -25,6 +25,10 @@ public class ArticleSaxHandler extends DefaultHandler {
         this.start_index = start_index;
     }
 
+    public ArticleSaxHandler() {
+        this.start_index = 0;
+        this.article_count = 999999;
+    }
 
 
     //getter method for employee list

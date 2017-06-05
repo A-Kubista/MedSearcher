@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static textProcessing.TextProcessingConstants.SortingType.*;
+
 /**
  * Created by LU on 2017-06-02.
  */
@@ -37,7 +39,7 @@ public class ArticleContainer {
                 DMI+" ("+DMInumber+")\tLTI: "+LTI+" ("+LTInumber+")\n" +article;
     }
 
-    public static void sortArticleContainers(TextProcessingConstants.SortingType typeOfSorting, List<ArticleContainer> articles){
+    public static void sortArticleContainers(int typeOfSorting, List<ArticleContainer> articles){
         switch(typeOfSorting){
             case SORT_BY_TF:
                 Collections.sort(articles, new Comparator() {

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import article.ArticleContainer;
 import article.ArticleController;
 import article.ArticleModel;
 
@@ -35,34 +34,31 @@ public class IndexController {
 
     public static Route serveIndexPage = (Request request, Response response) -> {
         Map<String, Object> model = new HashMap<>();
+        String query = request.params("query");
+        if(query == null)
+            query = "acid";
 
-            //TODO: jeśli pierwsze zapytanie, to należy wczytać dane (wszytkie dane, które wystarczy pobrać i przetworzyć raz (artykuły, słownik MESH, indeksowanie dokumentów itp.)
-            //TODO: mainController powinien zostać zapisane w sesji
-            TextProcessingController mainController = prepareData(request);
+        TextProcessingController mainController = prepareData(request);
+        //mainController.processQuery(query);
+        mainController.processQuery("migraine treatment");
 
-            //TODO: przekazać do zapisanego w sesji kontrolera aktualnie przetwarzane zapytania
-            mainController.processQuery("migraine treatment");
-            //for(ArticleContainer a: mainController.getSortedArticles()){
-            //    System.out.println(a+"\n\n\n");
-            //}
-
-            model.put("articles",mainController.getArticleList());
-
+        model.put("articles",mainController.getSortedArticles());
+        model.put("query",query);
         model.put("templateName","search_result.ftl");
 
         return ViewUtil.render(request, model, Path.Template.INDEX);
     };
 
-    //TODO: Przebudować articleController.getPorcessedArticles tak, by nie wymagała requesta
     private static TextProcessingController prepareData(Request request){
-
-        //TODO: Kontroler artykułów chyba może być statyczny
         ArticleController articleController = new ArticleController();
-        List<ArticleModel> articleList = articleController.getPorcessedArticles(request);
+        Dictionary MESHdictionary;
+        List<ArticleModel> articleList = articleController.getProcessedArticles(request);
+        MESHdictionary = request.session().attribute("dictionary");
 
-        //TODO: wczytanie słownika MESH z pliku mesh2017.xml - sposób budowania słownika przedstawiony został w Dictionary.testDictionary()
-        //Dictionary MESHdictionary = new Dictionary();
-        Dictionary MESHdictionary = Dictionary.testDictionary();
+        if(MESHdictionary == null) {
+            MESHdictionary = new Dictionary();
+            request.session().attribute("dictionary",MESHdictionary);
+        }
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
 
