@@ -52,16 +52,16 @@ public class DataContainer {
         }
 
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_LTI, sortedArticles);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTI(i+1);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTInumber(i+1);
 
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_DMI, sortedArticles);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setDMI(i+1);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setDMInumber(i+1);
 
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_IDF, sortedArticles);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setIDF(i+1);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setIDFnumber(i+1);
 
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_TF, sortedArticles);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setTF(i+1);
+        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setTFnumber(i+1);
 
         sortingType = 0;
 

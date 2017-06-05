@@ -12,12 +12,11 @@ import java.util.*;
 @Data
 public class TextProcessingController {
     private DataContainer dataContainer;
-    private List<ArticleContainer> sortedArticles;
     private Query query;
 
     public TextProcessingController(List<ArticleModel> articles, Dictionary dictionary){
         dataContainer = new DataContainer(dictionary, articles);
-        sortedArticles = new ArrayList<>();
+        query = null;
     }
 
     /**
@@ -45,7 +44,8 @@ public class TextProcessingController {
      */
     public void sort(int  sortingType){
         if(dataContainer.getSortingType()!=sortingType){
-            ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
+            System.out.println("Sortowanie: "+sortingType);
+            ArticleContainer.sortArticleContainers(sortingType,dataContainer.getSortedArticles());
             dataContainer.setSortingType(sortingType);
         }
     }
