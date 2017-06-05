@@ -1,6 +1,7 @@
 package textProcessing;
 
 import article.ArticleSaxHandler;
+import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import lombok.Data;
 import org.xml.sax.SAXException;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Data
 public class Dictionary {
-    private List<DictionaryTerm> terms;
+    private HugeArrayList<DictionaryTerm> terms ;
 
     public Dictionary(){
         DictionarySaxHandler handler = new DictionarySaxHandler();

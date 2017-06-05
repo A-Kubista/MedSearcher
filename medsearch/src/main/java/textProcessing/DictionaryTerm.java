@@ -2,6 +2,7 @@ package textProcessing;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by LU on 2017-06-02.
  */
 @Data
-public class DictionaryTerm extends Term{
+public class DictionaryTerm extends Term implements Serializable{
     private List<String> treeIndexes;
     private List<Term> synonyms;
 

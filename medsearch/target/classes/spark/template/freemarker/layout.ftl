@@ -32,7 +32,6 @@
 
        <div class="jumbotron text-center">
           <p>Pub Med searcher</p>
-
            <div class="col-sm-6 query offset-md-3 well well-sm">
                 <div class="row">
                       <div class="col-sm-2">
@@ -40,9 +39,10 @@
                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort by
                                <span class="caret"></span></button>
                                <ul class="dropdown-menu">
-                                   <li><a href="#">HTML</a></li>
-                                   <li><a href="#">CSS</a></li>
-                                   <li><a href="#">JavaScript</a></li>
+                                   <li><a href="/?filter=0&query=${query}">TF</a></li>
+                                   <li><a href="/?filter=1&query=${query}">DMI</a></li>
+                                   <li><a href="/?filter=2&query=${query}">IDF</a></li>
+                                   <li><a href="/?filter=3&query=${query}">TF</a></li>
                                </ul>
                            </div>
                       </div>

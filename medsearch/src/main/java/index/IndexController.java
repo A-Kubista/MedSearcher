@@ -11,6 +11,7 @@ import java.util.Map;
 import article.ArticleController;
 import article.ArticleModel;
 
+import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import textProcessing.Dictionary;
 import textProcessing.TextProcessingController;
 import util.*;
@@ -52,13 +53,16 @@ public class IndexController {
     private static TextProcessingController prepareData(Request request){
         ArticleController articleController = new ArticleController();
         Dictionary MESHdictionary;
-        List<ArticleModel> articleList = articleController.getProcessedArticles(request);
+        HugeArrayList<ArticleModel> articleList = articleController.getProcessedArticles(request);
         MESHdictionary = request.session().attribute("dictionary");
 
         if(MESHdictionary == null) {
             MESHdictionary = new Dictionary();
             request.session().attribute("dictionary",MESHdictionary);
         }
+        HugeArrayList<String> list = new HugeArrayList.Builder<String>().build();
+
+
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
 

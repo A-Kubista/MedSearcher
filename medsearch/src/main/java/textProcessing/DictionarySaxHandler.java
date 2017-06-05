@@ -1,6 +1,7 @@
 package textProcessing;
 
 import article.ArticleModel;
+import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class DictionarySaxHandler extends DefaultHandler {
 
         //List to hold Employees object
-        private List<DictionaryTerm> empList = new ArrayList<>();
+        private HugeArrayList<DictionaryTerm> empList = new HugeArrayList.Builder<DictionaryTerm>().build();
         private DictionaryTerm tmp = null;
 
 
@@ -25,7 +26,7 @@ public class DictionarySaxHandler extends DefaultHandler {
 
 
     //getter method for employee list
-        public List<DictionaryTerm> getEmpList() {
+        public HugeArrayList<DictionaryTerm> getEmpList() {
             return empList;
         }
         boolean name = false;

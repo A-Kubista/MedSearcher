@@ -1,5 +1,6 @@
 package article;
 
+import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -25,8 +26,8 @@ public class ArticleController {
 
     }
 
-    public  ArrayList<ArticleModel> parseXmls(){
-        ArrayList parsedXmls = new ArrayList();
+    public HugeArrayList<ArticleModel> parseXmls(){
+        HugeArrayList<ArticleModel> parsedXmls = new HugeArrayList.Builder<ArticleModel>().build();
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         final File folder = new File("./src/main/resources/articles");
             for (final File fileEntry : folder.listFiles()) {
@@ -44,10 +45,10 @@ public class ArticleController {
             return parsedXmls;
     }
 
-    public ArrayList<ArticleModel> getProcessedArticles(Request request) {
+    public HugeArrayList<ArticleModel> getProcessedArticles(Request request) {
         int article_count = ARTICLE_COUNT_BASE;
 
-        ArrayList empList = request.session().attribute("article_list");
+        HugeArrayList<ArticleModel> empList = request.session().attribute("article_list");
         if (empList == null) {
             empList = parseXmls();
             //request.session().attribute("article_list", empList);

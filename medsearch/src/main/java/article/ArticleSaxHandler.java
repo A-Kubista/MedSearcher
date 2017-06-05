@@ -1,5 +1,6 @@
 package article;
 
+import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class ArticleSaxHandler extends DefaultHandler {
 
         //List to hold Employees object
-        private ArrayList<ArticleModel> empList = new ArrayList<>();
+        private HugeArrayList<ArticleModel> empList = new HugeArrayList.Builder<ArticleModel>().build();
         private ArticleModel emp = null;
         private int article_count;
         private int counter = 0;
@@ -32,7 +33,7 @@ public class ArticleSaxHandler extends DefaultHandler {
 
 
     //getter method for employee list
-        public ArrayList<ArticleModel> getEmpList() {
+        public HugeArrayList<ArticleModel> getEmpList() {
             return empList;
         }
 

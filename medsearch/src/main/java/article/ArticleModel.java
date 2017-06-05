@@ -4,13 +4,14 @@ import textProcessing.*;
 import lombok.Data;
 import textProcessing.Dictionary;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by wilek on 2017-05-15.
  */
 @Data
-public class ArticleModel {
+public class ArticleModel implements Serializable{
 
     private String date = "";
     private String title = "";

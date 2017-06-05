@@ -2,11 +2,13 @@ package textProcessing;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * Created by LU on 2017-06-02.
  */
 @Data
-public class Term implements Comparable{
+public class Term implements Comparable,Serializable{
     protected String name;
     protected String normalizedName;
 
