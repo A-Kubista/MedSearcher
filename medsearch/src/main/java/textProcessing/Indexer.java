@@ -3,7 +3,7 @@ package textProcessing;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 import org.tartarus.snowball.ext.EnglishStemmer;
 
@@ -50,12 +50,13 @@ public class Indexer {
 
     private static List<String> tokenizeAndStopping(String text) throws IOException{
         List<String> result = new ArrayList<>();
-        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
+        Analyzer analyzer = new StandardAnalyzer();
         TokenStream tokenStream = analyzer.tokenStream("contents", new StringReader(text));
-        TermAttribute term = tokenStream.addAttribute(TermAttribute.class);
+        CharTermAttribute term = tokenStream.addAttribute(CharTermAttribute.class);
+
+        tokenStream.reset();
         while(tokenStream.incrementToken()) {
-            result.add(term.term());
-            //System.out.println("["+term.term()+"]");
+            result.add(term.toString());
         }
         return result;
     }

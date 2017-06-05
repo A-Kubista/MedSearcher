@@ -16,7 +16,7 @@ public class DataContainerTest {
     public void test() throws Exception {
         DataContainer container = new DataContainer(Dictionary.testDictionary(),ArticleModel.testArticles());
 
-        List<ArticleModel> as = container.getArticles();
+        List<ArticleModel> as = container.getAllArticles();
         /*System.out.println("ARTICLES:");
         for(ArticleModel a: as){
             System.out.println(a+"\n\n");

@@ -7,7 +7,7 @@ public class TextProcessingConstants {
     public static final double DICTIONARY_TERM_WEIGHT = 2.5;
     public static final double CONTENT_SIGNIFICANCE = 0.0;
 
-
+    public static final int NUMBER_OF_ARTICLES = 200;
 
     public class SortingType {
         public static final int SORT_BY_TF = 0;
