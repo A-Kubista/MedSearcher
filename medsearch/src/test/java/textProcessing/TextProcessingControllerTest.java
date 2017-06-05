@@ -24,9 +24,9 @@ public class TextProcessingControllerTest {
 
         for(ArticleContainer as: controller.getSortedArticles()){
             System.out.println(as);
-            double TFtitle = Indexer.cosineSimilarity(as.getArticle().getVectorTFTitle(),controller.getQuery().getVectorTFweighted());
-            double TFcontent = Indexer.cosineSimilarity(as.getArticle().getVectorTFContent(),controller.getQuery().getVectorTFweighted());
-            double TFkeys = Indexer.cosineSimilarity(as.getArticle().getVectorTFKeyWords(),controller.getQuery().getVectorTFweighted());
+            double TFtitle = Indexer.cosineSimilarity(as.getVectorTFTitle(),controller.getQuery().getVectorTFweighted());
+            double TFcontent = Indexer.cosineSimilarity(as.getVectorTFContent(),controller.getQuery().getVectorTFweighted());
+            double TFkeys = Indexer.cosineSimilarity(as.getVectorTFKeyWords(),controller.getQuery().getVectorTFweighted());
             System.out.println("Title: "+TFtitle+"\tContent: "+TFcontent+"\tKeywords: "+TFkeys);
             System.out.println("\n\n\n");
         }

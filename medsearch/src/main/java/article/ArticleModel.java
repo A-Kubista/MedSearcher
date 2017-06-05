@@ -22,76 +22,36 @@ public class ArticleModel {
     private List<Term> indexedTitle;
     private List<Term> indexedContent;
     private List<Term> indexedKeyWords;
-
-    private Map<Term,Double> vectorTF;
-    private Map<Term,Double> vectorTFTitle;
-    private Map<Term,Double> vectorTFContent;
-    private Map<Term,Double> vectorTFKeyWords;
-
-    private Map<Term,Double> vectorIDF;
-    private Map<Term,Double> vectorIDFTitle;
-    private Map<Term,Double> vectorIDFContent;
-    private Map<Term,Double> vectorIDFKeyWords;
-
-    private Map<Term,Double> vectorDMI;
+    private List<Term> indexedAll;
 
     public ArticleModel(){
         keyWords = new ArrayList<>();
+
+        indexedTitle = null;
+        indexedKeyWords = null;
+        indexedKeyWords = null;
+        indexedAll = null;
     }
     
     public void addKeyWord(String keyWord){ this.keyWords.add(keyWord);}
 
     public void indexArticle(Dictionary dictionary){
-        indexedTitle = Indexer.indexText(this.title, dictionary);
-        indexedContent = Indexer.indexText(this.content, dictionary);
+        if(indexedAll==null) {
+            indexedTitle = Indexer.indexText(title, dictionary);
+            indexedContent = Indexer.indexText(content, dictionary);
 
-        indexedKeyWords = new ArrayList<>();
-        for (String keyWord: this.keyWords) {
-            indexedKeyWords.addAll(Indexer.indexText(keyWord, dictionary));
-        }
-
-    }
-
-    public void createTFVectors(SortedSet<Term> dictionary){
-        this.vectorTFTitle = Indexer.createTFVector(dictionary,this.indexedTitle);
-        this.vectorTFContent = Indexer.createTFVector(dictionary,this.indexedContent);
-        this.vectorTFKeyWords = Indexer.createTFVector(dictionary,this.indexedKeyWords);
-
-        this.vectorTF = Indexer.sumVectors(this.vectorTFTitle,this.vectorTFContent);
-        this.vectorTF = Indexer.sumVectors(this.vectorTF,this.vectorTFKeyWords);
-    }
-
-    public void createDMIVector(){
-
-        vectorDMI = new HashMap<>();
-
-        Set<Term> terms = this.vectorTF.keySet();
-        for(Term term: terms){
-            if(term instanceof DictionaryTerm){
-                vectorDMI.put(term,(new Double(vectorTF.get(term)))* TextProcessingConstants.DICTIONARY_TERM_WEIGHT);
+            indexedKeyWords = new ArrayList<>();
+            for (String keyWord : keyWords) {
+                indexedKeyWords.addAll(Indexer.indexText(keyWord, dictionary));
             }
-            else{
-                vectorDMI.put(term,new Double(vectorTF.get(term)));
-            }
+
+            indexedAll = new ArrayList<>();
+            indexedAll.addAll(indexedTitle);
+            indexedAll.addAll(indexedContent);
+            indexedAll.addAll(indexedKeyWords);
         }
     }
 
-    public void createIDFVectors(Map<Term,Double> idfs,SortedSet<Term> dictionary){
-
-        this.vectorIDFTitle = Indexer.timesVectors(dictionary,idfs,vectorTFTitle);
-        this.vectorIDFContent = Indexer.timesVectors(dictionary,idfs,vectorTFContent);
-        this.vectorIDFKeyWords = Indexer.timesVectors(dictionary,idfs,vectorTFKeyWords);
-        this.vectorIDF = Indexer.timesVectors(dictionary,idfs,vectorTF);
-    }
-
-
-    public List<Term> getAllTerms(){
-        List<Term> res = new ArrayList<>();
-        res.addAll(indexedTitle);
-        res.addAll(indexedContent);
-        res.addAll(indexedKeyWords);
-        return res;
-    }
 
     public String toString(){
         String res = "Title: "+this.title+"\n"+this.content+"\nKey words: ";

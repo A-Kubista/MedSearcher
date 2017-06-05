@@ -25,8 +25,9 @@ public class TextProcessingController {
      * @param queryString nowe zapytania
      */
     public void processQuery(String queryString){
+        dataContainer.prepareDataForQuery(queryString);
         query = new Query(queryString,dataContainer.getMeshDictionary(),dataContainer.getDictionary(),dataContainer.getVectorIDF());
-        prepareRanking();
+        dataContainer.prepareRanking(query);
     }
 
     /**
@@ -35,7 +36,7 @@ public class TextProcessingController {
      */
     public void changeWeights(Map<Term,Double> weights){
         query.changeWeights(dataContainer.getDictionary(),weights);
-        this.prepareRanking();
+        dataContainer.prepareRanking(query);
     }
 
     /**
@@ -43,33 +44,14 @@ public class TextProcessingController {
      * @param sortingType nowy typ sortowania
      */
     public void sort(int  sortingType){
-        ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
-    }
-
-    private void prepareRanking(){
-        sortedArticles.clear();
-        List<ArticleModel> articles = this.getArticleList();
-
-        for(ArticleModel article: articles){
-            ArticleContainer conrainer = new ArticleContainer(article,query);
-            sortedArticles.add(conrainer);
+        if(dataContainer.getSortingType()!=sortingType){
+            ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
+            dataContainer.setSortingType(sortingType);
         }
-
-        sort(TextProcessingConstants.SortingType.SORT_BY_LTI);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTInumber(i+1);
-
-        sort(TextProcessingConstants.SortingType.SORT_BY_DMI);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setDMInumber(i+1);
-
-        sort(TextProcessingConstants.SortingType.SORT_BY_IDF);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setIDFnumber(i+1);
-
-        sort(TextProcessingConstants.SortingType.SORT_BY_TF);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setTFnumber(i+1);
-
     }
 
-    public List<ArticleModel> getArticleList(){
-        return dataContainer.getArticles();
+    public List<ArticleContainer> getSortedArticles(){
+        return dataContainer.getSortedArticles();
     }
+
 }

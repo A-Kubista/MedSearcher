@@ -19,6 +19,10 @@ import java.util.List;
 public class Dictionary {
     private List<DictionaryTerm> terms;
 
+    public Dictionary(int i){
+        terms = new ArrayList<>();
+    }
+
     public Dictionary(){
         DictionarySaxHandler handler = new DictionarySaxHandler();
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -82,7 +86,7 @@ public class Dictionary {
     }
 
     public static Dictionary testDictionary(){
-        Dictionary dic = new Dictionary();
+        Dictionary dic = new Dictionary(1);
         DictionaryTerm term;
 
         term = new DictionaryTerm("Vitamin D");

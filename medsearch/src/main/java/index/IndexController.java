@@ -42,6 +42,8 @@ public class IndexController {
         //mainController.processQuery(query);
         mainController.processQuery("migraine treatment");
 
+        mainController.getSortedArticles();
+
         model.put("articles",mainController.getSortedArticles());
         model.put("query",query);
         model.put("templateName","search_result.ftl");
@@ -56,8 +58,9 @@ public class IndexController {
         MESHdictionary = request.session().attribute("dictionary");
 
         if(MESHdictionary == null) {
-            MESHdictionary = new Dictionary();
-            request.session().attribute("dictionary",MESHdictionary);
+            //MESHdictionary = new Dictionary();
+            //request.session().attribute("dictionary",MESHdictionary);
+            MESHdictionary = Dictionary.testDictionary();
         }
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);

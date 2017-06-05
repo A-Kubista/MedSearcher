@@ -1,13 +1,10 @@
 package article;
 
 import lombok.Data;
-import textProcessing.Indexer;
-import textProcessing.Query;
-import textProcessing.TextProcessingConstants;
+import textProcessing.*;
+import textProcessing.Dictionary;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static textProcessing.TextProcessingConstants.SortingType.*;
 
@@ -17,6 +14,19 @@ import static textProcessing.TextProcessingConstants.SortingType.*;
 @Data
 public class ArticleContainer {
     private ArticleModel article;
+
+    private Map<Term,Double> vectorTF;
+    private Map<Term,Double> vectorTFTitle;
+    private Map<Term,Double> vectorTFContent;
+    private Map<Term,Double> vectorTFKeyWords;
+
+    private Map<Term,Double> vectorIDF;
+    private Map<Term,Double> vectorIDFTitle;
+    private Map<Term,Double> vectorIDFContent;
+    private Map<Term,Double> vectorIDFKeyWords;
+
+    private Map<Term,Double> vectorDMI;
+
     private double IDF = 0.0;
     private double TF = 0.0;
     private double DMI = 0.0;
@@ -26,13 +36,50 @@ public class ArticleContainer {
     private int DMInumber = 0;
     private int LTInumber = 0;
 
-    public ArticleContainer(ArticleModel article, Query query){
+    public ArticleContainer(ArticleModel article, Dictionary dictionary){
         this.article = article;
-        IDF = Indexer.cosineSimilarity(article.getVectorIDF(),query.getVectorIDFweighted());
-        TF = Indexer.cosineSimilarity(article.getVectorTF(),query.getVectorTFweighted());
-        DMI = Indexer.cosineSimilarity(article.getVectorDMI(),query.getVectorTFweighted());
-        LTI = Indexer.countLTI(article.getVectorTFKeyWords(),article.getVectorTFContent(),article.getVectorTFTitle(),query.getVectorTF());
+        article.indexArticle(dictionary);
     }
+
+    public void createTFVectors(SortedSet<Term> dictionary){
+        this.vectorTFTitle = Indexer.createTFVector(dictionary,article.getIndexedTitle());
+        this.vectorTFContent = Indexer.createTFVector(dictionary,article.getIndexedContent());
+        this.vectorTFKeyWords = Indexer.createTFVector(dictionary,article.getIndexedKeyWords());
+
+        this.vectorTF = Indexer.sumVectors(this.vectorTFTitle,this.vectorTFContent);
+        this.vectorTF = Indexer.sumVectors(this.vectorTF,this.vectorTFKeyWords);
+    }
+
+    public void createDMIVector(){
+
+        vectorDMI = new HashMap<>();
+
+        Set<Term> terms = this.vectorTF.keySet();
+        for(Term term: terms){
+            if(term instanceof DictionaryTerm){
+                vectorDMI.put(term,(new Double(vectorTF.get(term)))* TextProcessingConstants.DICTIONARY_TERM_WEIGHT);
+            }
+            else{
+                vectorDMI.put(term,new Double(vectorTF.get(term)));
+            }
+        }
+    }
+
+    public void createIDFVectors(Map<Term,Double> idfs,SortedSet<Term> dictionary){
+
+        this.vectorIDFTitle = Indexer.timesVectors(dictionary,idfs,vectorTFTitle);
+        this.vectorIDFContent = Indexer.timesVectors(dictionary,idfs,vectorTFContent);
+        this.vectorIDFKeyWords = Indexer.timesVectors(dictionary,idfs,vectorTFKeyWords);
+        this.vectorIDF = Indexer.timesVectors(dictionary,idfs,vectorTF);
+    }
+
+    public void countMeasurements(Query query){
+        TF = Indexer.cosineSimilarity(this.getVectorTF(),query.getVectorTFweighted());
+        IDF = Indexer.cosineSimilarity(this.getVectorIDF(),query.getVectorIDFweighted());
+        DMI = Indexer.cosineSimilarity(this.getVectorDMI(),query.getVectorTFweighted());
+        LTI = Indexer.countLTI(this.getVectorTFKeyWords(),this.getVectorTFContent(),this.getVectorTFTitle(),query.getVectorTFweighted());
+    }
+
 
     public String toString(){
         return "TF: "+TF+" ("+TFnumber+")\t\tIDF:"+IDF+" ("+IDFnumber+")\tDMI: "+
