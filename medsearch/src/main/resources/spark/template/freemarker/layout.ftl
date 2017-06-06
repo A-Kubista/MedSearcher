@@ -45,7 +45,7 @@
                                                <li><a href="/?filter=0&query=${query}">TF</a></li>
                                                <li><a href="/?filter=1&query=${query}">DMI</a></li>
                                                <li><a href="/?filter=2&query=${query}">IDF</a></li>
-                                               <li><a href="/?filter=3&query=${query}">TF</a></li>
+                                               <li><a href="/?filter=3&query=${query}">LTI</a></li>
                                            </ul>
                                        </div>
                                   </div>
