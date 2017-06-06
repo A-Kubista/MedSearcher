@@ -38,15 +38,26 @@ public class IndexController {
         String query = request.params("query");
         if(query == null)
             query = "acid";
+        String filter = request.params("filter");
+        int filter_int  = 0;
+        if(filter != null){
+            try{
+                filter_int = Integer.parseInt(filter);
+            }catch (Exception e){
+
+            }
+        }
+
 
         TextProcessingController mainController = prepareData(request);
-        //mainController.processQuery(query);
-        mainController.processQuery("migraine treatment");
+        mainController.processQuery(query);
+       // mainController.processQuery("migraine treatment");
 
         mainController.getSortedArticles();
 
         model.put("articles",mainController.getSortedArticles());
-        model.put("query",query);
+        model.put("query",mainController.getQuery().getQueryString());
+        model.put("sort_text", filter);
         model.put("templateName","search_result.ftl");
 
         return ViewUtil.render(request, model, Path.Template.INDEX);
@@ -63,7 +74,6 @@ public class IndexController {
             //request.session().attribute("dictionary",MESHdictionary);
             MESHdictionary = Dictionary.testDictionary();
         }
-        HugeArrayList<String> list = new HugeArrayList.Builder<String>().build();
 
 
 

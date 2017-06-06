@@ -51,7 +51,7 @@ public class ArticleController {
         HugeArrayList<ArticleModel> empList = request.session().attribute("article_list");
         if (empList == null) {
             empList = parseXmls();
-            //request.session().attribute("article_list", empList);
+            request.session().attribute("article_list", empList);
        }
 
  /*

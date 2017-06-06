@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,11 @@ import java.util.List;
  * Created by LU on 2017-06-02.
  */
 @Data
-public class Dictionary {
+public class Dictionary implements Serializable{
     private HugeArrayList<DictionaryTerm> terms ;
 
     public Dictionary(int i){
-        terms = new ArrayList<>();
+        terms = new HugeArrayList.Builder<DictionaryTerm>().build();
     }
 
     public Dictionary(){

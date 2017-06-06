@@ -32,34 +32,29 @@
 
        <div class="jumbotron text-center">
           <p>Pub Med searcher</p>
-           <div class="col-sm-6 query offset-md-3 well well-sm">
-                <div class="row">
-                      <div class="col-sm-2">
-                           <div class="dropdown">
-                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort by
-                               <span class="caret"></span></button>
-                               <ul class="dropdown-menu">
-                                   <li><a href="/?filter=0&query=${query}">TF</a></li>
-                                   <li><a href="/?filter=1&query=${query}">DMI</a></li>
-                                   <li><a href="/?filter=2&query=${query}">IDF</a></li>
-                                   <li><a href="/?filter=3&query=${query}">TF</a></li>
-                               </ul>
-                           </div>
-                      </div>
-                      <div class="col-sm-6 query offset-md-2">
-                        <h4> ${query}</h4>
-                      </div>
-                </div>
-           </div>
-
         </div>
 
          <div class="container">
-
+                   <div class="col-sm-6  col-md-offset-3 well well-sm">
+                            <div class="row">
+                                  <div class="col-sm-2">
+                                       <div class="dropdown">
+                                           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">${sort_text}
+                                           <span class="caret"></span></button>
+                                           <ul class="dropdown-menu">
+                                               <li><a href="/?filter=0&query=${query}">TF</a></li>
+                                               <li><a href="/?filter=1&query=${query}">DMI</a></li>
+                                               <li><a href="/?filter=2&query=${query}">IDF</a></li>
+                                               <li><a href="/?filter=3&query=${query}">TF</a></li>
+                                           </ul>
+                                       </div>
+                                  </div>
+                                   <div class="col-sm-6  col-md-offset-2">
+                                    <h4> ${query}</h4>
+                                  </div>
+                            </div>
+                       </div>
           <#include "${templateName}">
-           <div class="col-sm-2  col-md-offset-5">
-                <button type="button" class="btn btn-info"  onclick="nextTweets()">More</button>
-           </div>
       </div>
 
               <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
