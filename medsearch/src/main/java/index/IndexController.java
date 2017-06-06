@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import article.ArticleContainer;
 import article.ArticleController;
 import article.ArticleModel;
 
@@ -67,7 +68,9 @@ public class IndexController {
         mainController.processQuery(query);
        // mainController.processQuery("migraine treatment");
 
-        mainController.getSortedArticles();
+        for(ArticleContainer ac: mainController.getSortedArticles()){
+            System.out.println(ac+"\n\n");
+        }
 
         model.put("articles",mainController.getSortedArticles());
         model.put("query",mainController.getQuery().getQueryString());

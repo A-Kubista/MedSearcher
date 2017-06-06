@@ -51,7 +51,7 @@ public class DataContainer {
             ac.countMeasurements(query);
         }
 
-        /*
+
 
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_LTI, sortedArticles);
         for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTInumber(i+1);
@@ -65,12 +65,8 @@ public class DataContainer {
         ArticleContainer.sortArticleContainers(TextProcessingConstants.SortingType.SORT_BY_TF, sortedArticles);
         for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setTFnumber(i+1);
 
-        */
 
-        ArticleContainer.sortArticleContainers(sortingType, sortedArticles);
-        for(int i = 0;i<sortedArticles.size();i++) sortedArticles.get(i).setLTInumber(i+1);
-
-     //   sortingType = 0;
+       sortingType = 0;
 
     }
 

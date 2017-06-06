@@ -160,10 +160,8 @@ public class Indexer {
         TFcontent = Indexer.cosineSimilarity(content,query);
         TFkeyWords = Indexer.cosineSimilarity(keyWords,query);
 
-        LTI = (TFtitle>TFkeyWords)?TFtitle:TFkeyWords;
-        if(TFcontent>TextProcessingConstants.CONTENT_SIGNIFICANCE){
-            LTI = LTI + (1.0-LTI)*TFcontent;
-        }
+        LTI = ((TFtitle>TFkeyWords)?TFtitle:TFkeyWords)*TextProcessingConstants.CONTENT_SIGNIFICANCE;
+        LTI = LTI + (1.0-LTI)*TFcontent;
 
         return LTI;
     }

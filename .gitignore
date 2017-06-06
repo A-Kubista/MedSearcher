@@ -52,3 +52,5 @@ medsearch/src/main/resources/*.xml
 
 # XMl
 .xml
+*.jar
+medsearch/src/main/resources/articles/migraine.xml
