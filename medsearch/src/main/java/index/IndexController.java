@@ -35,14 +35,28 @@ public class IndexController {
 
     public static Route serveIndexPage = (Request request, Response response) -> {
         Map<String, Object> model = new HashMap<>();
-        String query = request.params("query");
+        String query = request.params("queryParams");
         if(query == null)
             query = "acid";
-        String filter = request.params("filter");
+        String filter = request.queryParams("filter");
         int filter_int  = 0;
         if(filter != null){
             try{
                 filter_int = Integer.parseInt(filter);
+                switch(filter_int){
+                    case 0:
+                        filter = "TF";
+                    break;
+                    case 1:
+                        filter = "DMI";
+                    break;
+                    case 2:
+                        filter = "IDF";
+                    break;
+                    case 3:
+                        filter = "LTI";
+                        break;
+                }
             }catch (Exception e){
 
             }

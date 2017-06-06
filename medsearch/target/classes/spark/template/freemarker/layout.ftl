@@ -55,9 +55,6 @@
                             </div>
                        </div>
           <#include "${templateName}">
-           <div class="col-sm-2  col-md-offset-5">
-                <button type="button" class="btn btn-info"  onclick="nextTweets()">More</button>
-           </div>
       </div>
 
               <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
