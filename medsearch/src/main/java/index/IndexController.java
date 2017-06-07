@@ -4,9 +4,7 @@ package index;
  * Created by wilek on 2017-05-10.
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import article.ArticleContainer;
 import article.ArticleController;
@@ -14,6 +12,7 @@ import article.ArticleModel;
 
 import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import textProcessing.Dictionary;
+import textProcessing.TextProcessingConstants;
 import textProcessing.TextProcessingController;
 import util.*;
 import spark.*;
@@ -65,11 +64,12 @@ public class IndexController {
 
 
         TextProcessingController mainController = prepareData(request);
-        mainController.processQuery(query);
-       // mainController.processQuery("migraine treatment");
+        //mainController.processQuery(query);
+        mainController.processQuery("migraine treatment");
+        System.out.println("Przeprocesowano zapytanie...");
 
         for(ArticleContainer ac: mainController.getSortedArticles()){
-            System.out.println(ac+"\n\n");
+            System.out.println(ac);
         }
 
         model.put("articles",mainController.getSortedArticles());
@@ -81,9 +81,12 @@ public class IndexController {
     };
 
     private static TextProcessingController prepareData(Request request){
+        System.out.println("Start ");
         ArticleController articleController = new ArticleController();
         Dictionary MESHdictionary;
-        HugeArrayList<ArticleModel> articleList = articleController.getProcessedArticles(request);
+        List<ArticleModel> articleList = articleController.getProcessedArticles(request);
+        //List<ArticleModel> articleList = ArticleModel.testArticles();
+        System.out.println("Wczytano artykuły...");
         MESHdictionary = request.session().attribute("dictionary");
 
         if(MESHdictionary == null) {
@@ -91,10 +94,10 @@ public class IndexController {
             //request.session().attribute("dictionary",MESHdictionary);
             MESHdictionary = Dictionary.testDictionary();
         }
-
-
+        System.out.println("Wczytano słownik...");
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
+        System.out.println("Utworzono kontroler...");
 
         return textProcessingController;
     }

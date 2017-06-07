@@ -4,6 +4,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.index.Terms;
 import org.apache.lucene.util.Version;
 import org.tartarus.snowball.ext.EnglishStemmer;
 
@@ -25,15 +26,16 @@ public class Indexer {
 
         List<String> tokens = new ArrayList<>();
         try {
-            tokens = tokenizeAndStopping(text);
+            tokens = stemming(tokenizeAndStopping(text));
         }catch (Exception ex){
             System.exit(999);
         }
 
+
         for(int len=TERM_MAX_LENGTH;len>0;len--){
             for(int i=0;i<=tokens.size()-len;i++){
                 List<String> sublist = tokens.subList(i,i+len);
-                Term testTerm = new Term(concatStrings(sublist));
+                Term testTerm = new Term(concatStrings(sublist), false);
                 DictionaryTerm dTerm = dictionary.findTerm(testTerm);
                 if(dTerm!=null){
                     res.add(dTerm);
@@ -43,8 +45,16 @@ public class Indexer {
             }
         }
 
-        res.addAll(stemming(tokens));
+        res.addAll(stringsToTerms(tokens));
 
+        return res;
+    }
+
+    private static List<Term> stringsToTerms(List<String> list){
+        List<Term> res = new ArrayList<>();
+        for (String s: list){
+            res.add(new Term(s,false));
+        }
         return res;
     }
 
@@ -61,16 +71,26 @@ public class Indexer {
         return result;
     }
 
-    private static List<Term> stemming(List<String> words){
-        List<Term> result = new ArrayList<>();
+    private static List<String> stemming(List<String> words){
+        List<String> result = new ArrayList<>();
         EnglishStemmer english = new EnglishStemmer();
         for(String word: words){
             english.setCurrent(word);
             english.stem();
             String term = english.getCurrent();
-            result.add(new Term(term));
+            result.add(term);
         }
         return result;
+    }
+
+    public static String normalizeTerm(String s){
+        String res = "";
+        try {
+            res = concatStrings(stemming(tokenizeAndStopping(s)));
+        }catch(Exception ex){
+            System.exit(999);
+        }
+        return res;
     }
 
     private static String concatStrings(List<String> list){
@@ -96,7 +116,6 @@ public class Indexer {
             System.out.print("["+s+"] ");
         }
         System.out.print("\n");
-
 
         return result;
     }

@@ -1,7 +1,5 @@
 package textProcessing;
 
-import article.ArticleSaxHandler;
-import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import lombok.Data;
 import org.xml.sax.SAXException;
 
@@ -11,21 +9,21 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LU on 2017-06-02.
  */
 @Data
-public class Dictionary implements Serializable{
-    private HugeArrayList<DictionaryTerm> terms ;
+public class Dictionary implements Serializable {
+    private Map<String, DictionaryTerm> terms;
 
-    public Dictionary(int i){
-        terms = new HugeArrayList.Builder<DictionaryTerm>().build();
+    public Dictionary(int i) {
+
+        terms = new HashMap<>();
     }
 
-    public Dictionary(){
+    public Dictionary() {
         DictionarySaxHandler handler = new DictionarySaxHandler();
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = null;
@@ -43,14 +41,11 @@ public class Dictionary implements Serializable{
     }
 
     public void addTerm(DictionaryTerm term){
-        terms.add(term);
+        DictionaryTerm.addToMap(terms,term);
     }
 
     public DictionaryTerm findTerm(Term searchingTerm){
-        for (DictionaryTerm term: terms) {
-            if(term.equals(searchingTerm)) return term;
-        }
-        return null;
+        return terms.getOrDefault(searchingTerm.getNormalizedName(),null);
     }
 
     public int getSize(){
@@ -59,8 +54,8 @@ public class Dictionary implements Serializable{
 
     public String toString(){
         String res = "";
-        for (DictionaryTerm term: terms) {
-            res = res + term + "\n";
+        for(Map.Entry<String,DictionaryTerm> term: this.terms.entrySet()){
+            res = res + term.getKey()+": " +term.getValue()+ "\n";
         }
         return res;
     }
@@ -68,9 +63,9 @@ public class Dictionary implements Serializable{
     public List<DictionaryTerm> findChildren(String termNumber){
         List<DictionaryTerm> res = new ArrayList<>();
 
-        for(DictionaryTerm term: this.terms){
-            for(String number: term.getTreeIndexes()){
-                if(number.matches("^"+termNumber+"\\.[0-9]+$")) res.add(term);
+        for(Map.Entry<String,DictionaryTerm> term: this.terms.entrySet()){
+            for(String number: term.getValue().getTreeIndexes()){
+                if(number.matches("^"+termNumber+"\\.[0-9]+$") && !res.contains(term.getValue())) res.add(term.getValue());
             }
         }
 
@@ -79,9 +74,9 @@ public class Dictionary implements Serializable{
 
     public DictionaryTerm findParent(String termNumber){
         String searchingNumber = termNumber.replaceAll("\\.[0-9]+$","");
-        for(DictionaryTerm term: this.terms){
-            for(String number: term.getTreeIndexes()){
-                if(number.equals(searchingNumber)) return term;
+        for(Map.Entry<String,DictionaryTerm> term: this.terms.entrySet()){
+            for(String number: term.getValue().getTreeIndexes()){
+                if(number.equals(searchingNumber)) return term.getValue();
             }
         }
         return null;
@@ -110,6 +105,21 @@ public class Dictionary implements Serializable{
         term.addTreeIndex("G11.15");
         dic.addTerm(term);
 
+        term = new DictionaryTerm("Vitamin A");
+        term.addSynonym("A Vitamin");
+        term.addTreeIndex("G11.15.9");
+        dic.addTerm(term);
+
         return dic;
+    }
+
+    public void printDictionary(){
+        List<DictionaryTerm> res = new ArrayList<>();
+        for(Map.Entry<String,DictionaryTerm> element: terms.entrySet()){
+            if(!res.contains(element.getValue())){
+                System.out.println(element.getValue());
+                res.add(element.getValue());
+            }
+        }
     }
 }

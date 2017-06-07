@@ -3,8 +3,7 @@ package textProcessing;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LU on 2017-06-02.
@@ -45,10 +44,20 @@ public class DictionaryTerm extends Term implements Serializable{
     }
 
     public String toString(){
-        String res = name+" [";
-        for (Term s: synonyms) {
-            res = res + ", "+s;
+        String res = name+"\n\tIndex tree ("+treeIndexes.size()+")\n";
+        for (String s: treeIndexes) {
+            res = res + "\t\t "+s+"\n";
         }
-        return res+"]";
+        res = res+"\tSynonyms ("+synonyms.size()+")\n";
+        for (Term s: synonyms) {
+            res = res + "\t\t "+s+"\n";
+        }
+        return res;
+    }
+
+    public static void addToMap(Map<String,DictionaryTerm> map, DictionaryTerm term){
+        for(Term synonym: term.getSynonyms()){
+            map.put(synonym.getNormalizedName(),term);
+        }
     }
 }

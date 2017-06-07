@@ -7,13 +7,11 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.search.Query;
+import org.apache.lucene.search.*;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -63,8 +61,10 @@ public class LuceneFIlter {
             int docId = hits[i].doc;
             Document d = searcher.doc(docId);
             res.add(articles.get(Integer.parseInt(d.get("No"))));
+            res.get(i).setLuceneScore(hits[i].score);
         }
 
+        System.out.println("\n\n\n\n");
 
         return res;
     }

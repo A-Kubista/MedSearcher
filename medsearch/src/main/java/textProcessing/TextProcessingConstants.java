@@ -14,5 +14,6 @@ public class TextProcessingConstants {
         public static final int SORT_BY_IDF = 1;
         public static final int SORT_BY_DMI = 2;
         public static final int SORT_BY_LTI = 3;
+        public static final int SORT_BY_LUCENE = 4;
     }
 }

@@ -31,27 +31,42 @@ public class TextProcessingController {
 
     /**
      * Zmiana wag termów w zapytania
-     * @param weights mapa zawierająca Termy i nowe wagi
+     * @param newWeights mapa zawierająca Termy i nowe wagi
+     * @param query procesowane zapytanie (pobrane z sesji)
+     * @param sortedArticles lista artykułów (pobrana z sesji)
+     * @param dictionary słownik (pobrany z sesji, można go otrzymać poprzez TextProcessingController.getDataContainer().getDictionary())
      */
-    public void changeWeights(Map<Term,Double> weights){
-        query.changeWeights(dataContainer.getDictionary(),weights);
-        dataContainer.prepareRanking(query);
+    public void changeWeights(Map<Term,Double> newWeights, Query query, List<ArticleContainer> sortedArticles, SortedSet<Term> dictionary){
+        query.changeWeights(dictionary,newWeights);
+        DataContainer container = new DataContainer(sortedArticles);
+        container.prepareRanking(query);
+    }
+
+    /**
+     * Zmiana sposobu sortowania
+     * @param sortingType nowy typ sortowania
+     * @param sortedArticles lista ArticleContainer do posortowania (pobrana z sesji)
+     */
+    public static void sort(int sortingType, List<ArticleContainer> sortedArticles){
+        ArticleContainer.sortArticleContainers(sortingType,sortedArticles);
     }
 
     /**
      * Zmiana sposobu sortowania
      * @param sortingType nowy typ sortowania
      */
-    public void sort(int  sortingType){
-        if(dataContainer.getSortingType()!=sortingType){
-            System.out.println("Sortowanie: "+sortingType);
-            ArticleContainer.sortArticleContainers(sortingType,dataContainer.getSortedArticles());
-            dataContainer.setSortingType(sortingType);
-        }
+    public void sort(int sortingType){
+        ArticleContainer.sortArticleContainers(sortingType,this.getSortedArticles());
     }
 
     public List<ArticleContainer> getSortedArticles(){
         return dataContainer.getSortedArticles();
+    }
+
+    public void printDictionary(){
+        for(Term t: this.dataContainer.getDictionary()){
+            System.out.println(t);
+        }
     }
 
 }

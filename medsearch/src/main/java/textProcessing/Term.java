@@ -12,18 +12,18 @@ public class Term implements Comparable,Serializable{
     protected String name;
     protected String normalizedName;
 
-    public Term(String name){
+    public Term(String name) {
         this.name = name;
         normalizedName = normalize(name);
     }
 
-    public static String normalize(String string){
-        String result = string.toLowerCase();
-        result = result.replace('-',' ');
-        result = result.replace('.',' ');
-        result = result.replace(',',' ');
-        result = result.replaceAll("\\s+"," ");
+    public Term(String name, boolean withNormalization) {
+        this.name = name;
+        normalizedName = withNormalization ? normalize(name) : name;
+    }
 
+    public static String normalize(String string){
+        String result = Indexer.normalizeTerm(string);
         return result;
     }
 

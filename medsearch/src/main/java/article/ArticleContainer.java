@@ -27,18 +27,26 @@ public class ArticleContainer {
 
     private Map<Term,Double> vectorDMI;
 
-    private double IDF = 0.0;
-    private double TF = 0.0;
-    private double DMI = 0.0;
-    private double LTI = 0.0;
-    private int IDFnumber = 0;
-    private int TFnumber = 0;
-    private int DMInumber = 0;
-    private int LTInumber = 0;
+    private double IDF = -1.0;
+    private double TF = -1.0;
+    private double DMI = -1.0;
+    private double LTI = -1.0;
+    private double Lucene = -1.0;
+    private int IDFnumber = -1;
+    private int TFnumber = -1;
+    private int DMInumber = -1;
+    private int LTInumber = -1;
+    private int LuceneNumber = -1;
 
     public ArticleContainer(ArticleModel article, Dictionary dictionary){
         this.article = article;
         article.indexArticle(dictionary);
+    }
+
+    public ArticleContainer(ArticleModel article, Dictionary dictionary, int luceneRanking){
+        this(article,dictionary);
+        this.LuceneNumber = luceneRanking;
+        this.Lucene = article.getLuceneScore();
     }
 
     public void createTFVectors(SortedSet<Term> dictionary){
@@ -82,7 +90,7 @@ public class ArticleContainer {
 
 
     public String toString(){
-        return "TF: "+TF+" ("+TFnumber+")\t\tIDF:"+IDF+" ("+IDFnumber+")\tDMI: "+
+        return "Lucene: "+Lucene+" ("+LuceneNumber+")\t\tTF: "+TF+" ("+TFnumber+")\t\tIDF:"+IDF+" ("+IDFnumber+")\tDMI: "+
                 DMI+" ("+DMInumber+")\tLTI: "+LTI+" ("+LTInumber+")\n" +article;
     }
 
@@ -134,6 +142,18 @@ public class ArticleContainer {
                         int sComp = x1.compareTo(x2);
 
                         return -sComp;
+                    }});
+                break;
+            case SORT_BY_LUCENE:
+                Collections.sort(articles, new Comparator() {
+
+                    public int compare(Object o1, Object o2) {
+
+                        Integer x1 = new Integer(((ArticleContainer) o1).getLuceneNumber());
+                        Integer x2 = new Integer(((ArticleContainer) o2).getLuceneNumber());
+                        int sComp = x1.compareTo(x2);
+
+                        return sComp;
                     }});
                 break;
             default: break;

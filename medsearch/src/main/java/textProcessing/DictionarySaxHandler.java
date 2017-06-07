@@ -5,8 +5,7 @@ import ch.obermuhlner.jhuge.collection.HugeArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by wilek on 2017-05-27.
@@ -15,8 +14,7 @@ import java.util.List;
 
 public class DictionarySaxHandler extends DefaultHandler {
 
-        //List to hold Employees object
-        private HugeArrayList<DictionaryTerm> empList = new HugeArrayList.Builder<DictionaryTerm>().build();
+        private Map<String,DictionaryTerm> empList = new HashMap<>();
         private DictionaryTerm tmp = null;
 
 
@@ -26,7 +24,7 @@ public class DictionarySaxHandler extends DefaultHandler {
 
 
     //getter method for employee list
-        public HugeArrayList<DictionaryTerm> getEmpList() {
+        public Map<String,DictionaryTerm> getEmpList() {
             return empList;
         }
         boolean name = false;
@@ -54,7 +52,8 @@ public class DictionarySaxHandler extends DefaultHandler {
         @Override
         public void endElement(String uri, String localName, String qName){
             if (qName.equalsIgnoreCase("DescriptorRecord")) {
-                empList.add(tmp);
+                System.out.println(tmp);
+                DictionaryTerm.addToMap(empList,tmp);
             }
         }
 

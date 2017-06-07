@@ -25,6 +25,8 @@ public class ArticleModel implements Serializable{
     private List<Term> indexedKeyWords;
     private List<Term> indexedAll;
 
+    private double luceneScore = -1.0;
+
     public ArticleModel(){
         keyWords = new ArrayList<>();
 
@@ -78,6 +80,7 @@ public class ArticleModel implements Serializable{
         a.setContent(a.getContent() + "This case-control study was carried out to examine the association between CTTH and serum 25-hydroxy vitamin (25(OH) D) levels. One hundred consecutive adult (>18 years) patients with CTTH and 100 matched healthy controls were enrolled." + "\n");
         a.setContent(a.getContent() + "The serum 25(OH) D levels were significantly lower in CTTH patients than in the controls (14.7 vs 27.4 ng/mL). The prevalence of vitamin D deficiency (serum 25 (OH) D < 20 ng/mL) was greater in patients with CTTH (71% vs 25%). CTTH patients had a significantly high prevalence of musculoskeletal pain (79% vs 57%), muscle weakness (29%vs 10%), muscle tenderness score (7.5 vs 1.9), and bone tenderness score (3.0 vs 0.8) in comparison to controls. CTTH patients with vitamin D deficient group (<20 ng/mL) had a higher prevalence of musculoskeletal pain (58% vs 31%), muscle weakness (38%vs 7%), muscle and bone tenderness score, associated fatigue (44% vs 17%) and more prolonged course (15.5 months vs 11.2 months). A strong positive correlation was noted between serum vitamin D levels and total muscle tenderness score (R(2)  = 0. 7365) and total bone tenderness score (R(2)  = 0. 6293)." + "\n");
         a.setContent(a.getContent() + "Decreased serum 25(OHD) concentration was associated with CTTH. Intervention studies are required to find out if supplementation of vitamin D is effective in patients with CTTH." + "\n");
+
         result.add(a);
 
         a = new ArticleModel();
@@ -87,6 +90,7 @@ public class ArticleModel implements Serializable{
         a.setContent(a.getContent() + "From April 3, 2014, to Dec 4, 2015, 667 patients were randomly assigned to receive placebo (n=286), erenumab 70 mg (n=191), or erenumab 140 mg (n=190). Erenumab 70 mg and 140 mg reduced monthly migraine days versus placebo (both doses -6·6 days vs placebo -4·2 days; difference -2·5, 95% CI -3·5 to -1·4, p<0·0001). Adverse events were reported in 110 (39%) of 282 patients, 83 (44%) of 190 patients, and 88 (47%) of 188 patients in the placebo, 70 mg, and 140 mg groups, respectively. The most frequent adverse events were injection-site pain, upper respiratory tract infection, and nausea. Serious adverse events were reported by seven (2%), six (3%), and two (1%) patients, respectively; none were reported in more than one patient in any group or led to discontinuation. 11 patients in the 70 mg group and three in the 140 mg group had anti-erenumab binding antibodies; none had anti-erenumab neutralising antibodies. No clinically significant abnormalities in vital signs, laboratory results, or electrocardiogram findings were identified. Of 667 patients randomly assigned to treatment, 637 completed treatment. Four withdrew because of adverse events, two each in the placebo and 140 mg groups." + "\n");
         a.setContent(a.getContent() + "In patients with chronic migraine, erenumab 70 mg and 140 mg reduced the number of monthly migraine days with a safety profile similar to placebo, providing evidence that erenumab could be a potential therapy for migraine prevention. Further research is needed to understand long-term efficacy and safety of erenumab, and the applicability of this study to real-world settings." + "\n");
         a.setContent(a.getContent() + "Amgen." + "\n");
+
         result.add(a);
 
         a = new ArticleModel();
@@ -112,6 +116,29 @@ public class ArticleModel implements Serializable{
         a.setContent(a.getContent() + "Eighteen episodic migraineurs (EMs), 17 chronic migraineurs (CMs), and 19 healthy controls (HCs) underwent painful ammonia stimulation of the left nostril in a 3T MRI scanner. Functional images were acquired with a brainstem-optimized protocol for high-resolution echo-planar imaging." + "\n");
         a.setContent(a.getContent() + "We detected a significantly stronger activation of the anterior right hypothalamus in CMs compared to HCs. To exclude the headache as a prime mediator of the hypothalamic activations, we compared all migraineurs with headaches (EMs and CMs) with all migraineurs without headaches (EMs and CMs) and HCs in a second analysis and found a more posterior region of the hypothalamus to be more activated bilaterally during headaches." + "\n");
         a.setContent(a.getContent() + "Our data corroborate the fact that the hypothalamus plays a crucial role in the pathophysiology of migraine chronification and acute pain stage of migraineurs. While the more posterior part of the hypothalamus seems to be important for the acute pain stage, the more anterior part seems to play an important role in attack generation and migraine chronification." + "\n");
+        result.add(a);
+
+        return result;
+    }
+
+    public static List<ArticleModel> testArticlesIwM(){
+        List<ArticleModel> result = new ArrayList<>();
+
+        ArticleModel a;
+        a = new ArticleModel();
+        a.setTitle("informatyka, medycyna, pacjent, komputer");
+        result.add(a);
+
+        a = new ArticleModel();
+        a.setTitle("medycyna, medycyna, medycyna, medycyna");
+        result.add(a);
+
+        a = new ArticleModel();
+        a.setTitle("pacjent, lekarz, pacjent, pacjent");
+        result.add(a);
+
+        a = new ArticleModel();
+        a.setTitle("informatyka, lekarz, informatyka, medycyna");
         result.add(a);
 
         return result;

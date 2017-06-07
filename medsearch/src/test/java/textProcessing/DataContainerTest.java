@@ -17,7 +17,7 @@ public class DataContainerTest {
         DataContainer container = new DataContainer(Dictionary.testDictionary(),ArticleModel.testArticles());
 
         List<ArticleModel> as = container.getAllArticles();
-        /*System.out.println("ARTICLES:");
+        System.out.println("ARTICLES:");
         for(ArticleModel a: as){
             System.out.println(a+"\n\n");
         }
@@ -26,13 +26,13 @@ public class DataContainerTest {
         for(Term q: d){
             System.out.println(q);
         }
-        */
-        SortedSet<Term> d = container.getDictionary();
-        Map<Term,Double> tf = container.getVectorTF();
-        Map<Term,Double> idf = container.getVectorIDF();
-        for(Term q: d){
-            System.out.println(q+"\t"+tf.get(q)+"\t\t"+idf.get(q));
-        }
+
+        //SortedSet<Term> d = container.getDictionary();
+        //Map<Term,Double> tf = container.getVectorTF();
+        //Map<Term,Double> idf = container.getVectorIDF();
+        //for(Term q: d){
+        //    System.out.println(q+"\t"+tf.get(q)+"\t\t"+idf.get(q));
+        //}
     }
 
 }

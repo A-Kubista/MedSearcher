@@ -19,16 +19,12 @@ public class TextProcessingControllerTest {
     public void test() throws Exception {
 
         TextProcessingController controller = new TextProcessingController(ArticleModel.testArticles(),Dictionary.testDictionary());
-        //TextProcessingController controller = new TextProcessingController(articles,Dictionary.testDictionary());
-        controller.processQuery("treatment migraine");
+        controller.processQuery("migraine treatment");
+
+        TextProcessingController.sort(TextProcessingConstants.SortingType.SORT_BY_DMI, controller.getSortedArticles());
 
         for(ArticleContainer as: controller.getSortedArticles()){
             System.out.println(as);
-            double TFtitle = Indexer.cosineSimilarity(as.getVectorTFTitle(),controller.getQuery().getVectorTFweighted());
-            double TFcontent = Indexer.cosineSimilarity(as.getVectorTFContent(),controller.getQuery().getVectorTFweighted());
-            double TFkeys = Indexer.cosineSimilarity(as.getVectorTFKeyWords(),controller.getQuery().getVectorTFweighted());
-            System.out.println("Title: "+TFtitle+"\tContent: "+TFcontent+"\tKeywords: "+TFkeys);
-            System.out.println("\n\n\n");
         }
 
         /*for(ArticleContainer as: controller.getSortedArticles()){

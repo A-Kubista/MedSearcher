@@ -36,6 +36,10 @@ public class DataContainer {
         this.sortedArticles = new ArrayList<>();
     }
 
+    public DataContainer(List<ArticleContainer> sortedArticles){
+        this.sortedArticles = sortedArticles;
+    }
+
     public void prepareDataForQuery(String queryString){
         this.resetFilter();
         this.filterArticles(queryString);
@@ -71,8 +75,8 @@ public class DataContainer {
     }
 
     private void indexArticles(){
-        for(ArticleModel a: filteredArticles){
-            ArticleContainer ac = new ArticleContainer(a,meshDictionary);
+        for(int i=0;i<filteredArticles.size();i++){
+            ArticleContainer ac = new ArticleContainer(filteredArticles.get(i),meshDictionary, i+1);
             sortedArticles.add(ac);
         }
     }
