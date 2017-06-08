@@ -35,9 +35,12 @@ public class IndexController {
 
     public static Route serveIndexPage = (Request request, Response response) -> {
         Map<String, Object> model = new HashMap<>();
-        String query = request.params("queryParams");
-        if(query == null)
-            query = "acid";
+        String query = request.queryParams("query");
+        boolean is_query = true; // freemarker conditinal rendering cant check string
+        if(query == null) {
+            query = "";
+            is_query = false;
+        }
         String filter = request.queryParams("filter");
         int filter_int  = 0;
         if(filter != null){
@@ -60,12 +63,14 @@ public class IndexController {
             }catch (Exception e){
 
             }
+        }else{
+            filter = "TF";
         }
 
 
         TextProcessingController mainController = prepareData(request);
         //mainController.processQuery(query);
-        mainController.processQuery("migraine treatment");
+        mainController.processQuery(query);
         System.out.println("Przeprocesowano zapytanie...");
 
         for(ArticleContainer ac: mainController.getSortedArticles()){
@@ -73,6 +78,7 @@ public class IndexController {
         }
 
         model.put("articles",mainController.getSortedArticles());
+        model.put("is_query",is_query);
         model.put("query",mainController.getQuery().getQueryString());
         model.put("sort_text", filter);
         model.put("templateName","search_result.ftl");
@@ -90,9 +96,9 @@ public class IndexController {
         MESHdictionary = request.session().attribute("dictionary");
 
         if(MESHdictionary == null) {
-            //MESHdictionary = new Dictionary();
+            MESHdictionary = new Dictionary();
             //request.session().attribute("dictionary",MESHdictionary);
-            MESHdictionary = Dictionary.testDictionary();
+         //   MESHdictionary = Dictionary.testDictionary();
         }
         System.out.println("Wczytano słownik...");
 

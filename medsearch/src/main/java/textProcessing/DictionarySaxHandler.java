@@ -31,12 +31,16 @@ public class DictionarySaxHandler extends DefaultHandler {
         boolean tree_number = false;
         boolean term = false;
         boolean term_string = false;
+        boolean new_record = false;
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
         {
-            if (qName.equalsIgnoreCase("DescriptorName")) {
+            if (qName.equalsIgnoreCase("DescriptorRecord")) {
+                new_record = true;
+            }else if (new_record && qName.equalsIgnoreCase("DescriptorName")) {
                 name = true;
+                new_record = false;
             }else if (qName.equalsIgnoreCase("TreeNumber")) {
                 //set boolean values for fields, will be used in setting Employee variables
                 tree_number = true;
@@ -61,6 +65,7 @@ public class DictionarySaxHandler extends DefaultHandler {
         public void characters(char ch[], int start, int length){
                 if (name) {
                     tmp = new DictionaryTerm( new String(ch, start, length));
+                    name = false;
                 } else if (tree_number) {
                     tmp.addTreeIndex(new String(ch, start, length));
                     tree_number = false;

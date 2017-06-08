@@ -117,7 +117,7 @@ public class Dictionary implements Serializable {
         List<DictionaryTerm> res = new ArrayList<>();
         for(Map.Entry<String,DictionaryTerm> element: terms.entrySet()){
             if(!res.contains(element.getValue())){
-                System.out.println(element.getValue());
+            //    System.out.println(element.getValue());
                 res.add(element.getValue());
             }
         }

@@ -28,7 +28,7 @@ public class ArticleSaxHandler extends DefaultHandler {
 
     public ArticleSaxHandler() {
         this.start_index = 0;
-        this.article_count = 999999;
+        this.article_count = 99999;
     }
 
 
@@ -41,6 +41,7 @@ public class ArticleSaxHandler extends DefaultHandler {
         boolean last_name = false;
         boolean date = false;
         boolean content = false;
+        boolean keyword =false;
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -66,6 +67,8 @@ public class ArticleSaxHandler extends DefaultHandler {
                         date = true;
                     } else if (qName.equalsIgnoreCase("AbstractText")) {
                         content = true;
+                    }else if (qName.equalsIgnoreCase("Keyword")) {
+                        keyword = true;
                     }
                 }
             }
@@ -89,6 +92,9 @@ public class ArticleSaxHandler extends DefaultHandler {
                     else if (qName.equalsIgnoreCase("AbstractText")) {
                         content = false;
                     }
+                    else if (qName.equalsIgnoreCase("Keyword")) {
+                        keyword = false;
+                    }
                 }
         }
 
@@ -100,7 +106,7 @@ public class ArticleSaxHandler extends DefaultHandler {
                     emp.setTitle(new String(ch, start, length));
                     title = false;
                 } else if (last_name) {
-                    emp.setAuthor(emp.getAuthor() + ", " + new String(ch, start, length));
+                    emp.setAuthor(emp.getAuthor(this) + new String(ch, start, length));
                     last_name = false;
                 } else if (date) {
                     String tmp = new String(ch, start, length);
@@ -109,6 +115,10 @@ public class ArticleSaxHandler extends DefaultHandler {
                 } else if (content) {
                     emp.setContent(emp.getContent() + "<p>     " + new String(ch, start, length) + "</p>");
                     content = false;
+                }
+                else if (keyword) {
+                    emp.getKeyWords().add(new String(ch, start, length));
+                    keyword = false;
                 }
             }
 

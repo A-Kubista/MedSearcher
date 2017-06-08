@@ -18,6 +18,16 @@ public class ArticleModel implements Serializable{
     private String author = "";
     private String content = "";
     private String id = "";
+    private String full_keys;
+
+
+
+    public String getFull_keys(){
+        if(keyWords.size() > 0)
+            return keyWords.toString();
+        return "";
+    }
+
     private List<String> keyWords;
 
     private List<Term> indexedTitle;
@@ -149,4 +159,11 @@ public class ArticleModel implements Serializable{
             return  date + "-";
         return date;
     }
+
+    public String   getAuthor(ArticleSaxHandler context) {
+        if(!author.isEmpty())
+            return  author + ",";
+        return author;
+    }
+
 }
