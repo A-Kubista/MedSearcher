@@ -26,7 +26,7 @@
                                 <h5>LTI: ${article.LTI} (${article.LTInumber})</h5>
                           </div>
                       </div>
-
+                         <h5>Lucene: ${article.test} (${article.test_two})</h5>
 
              </div>
        </div>

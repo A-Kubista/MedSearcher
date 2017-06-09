@@ -38,6 +38,9 @@ public class ArticleContainer {
     private int LTInumber = -1;
     private int LuceneNumber = -1;
 
+    public double test  = -1.0;
+    public int test_two = -1;
+
     public ArticleContainer(ArticleModel article, Dictionary dictionary){
         this.article = article;
         article.indexArticle(dictionary);
@@ -47,6 +50,8 @@ public class ArticleContainer {
         this(article,dictionary);
         this.LuceneNumber = luceneRanking;
         this.Lucene = article.getLuceneScore();
+        test = Lucene;
+        test_two = LuceneNumber;
     }
 
     public void createTFVectors(SortedSet<Term> dictionary){

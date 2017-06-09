@@ -2,7 +2,7 @@
  <div class="col-sm-6  col-md-offset-3">
     <#list articles as article>
        <div class="row tweet "  >
-             <div class="col-sm-12 tweet_text">
+             <div class="col-sm-12 tweet_text"  .text-center>
 
                     <div class="row">
                         <div class="col-sm-9 ">
@@ -26,7 +26,7 @@
                                 <h5>LTI: ${article.LTI} (${article.LTInumber})</h5>
                           </div>
                       </div>
-
+                         <h5>Lucene: ${article.test} (${article.test_two})</h5>
 
              </div>
        </div>

@@ -82,7 +82,7 @@ public class IndexController {
         model.put("query",mainController.getQuery().getQueryString());
         model.put("sort_text", filter);
         model.put("templateName","search_result.ftl");
-
+        System.out.println(mainController.getSortedArticles().get(0));
         return ViewUtil.render(request, model, Path.Template.INDEX);
     };
 
