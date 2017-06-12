@@ -37,6 +37,18 @@
 
         <#if is_query>
           <div class="container">
+                 <div class="col-md-10 col-md-offset-1">
+                     <h4>Searching terms:${search_terms}</h4>
+                 </div>
+                 <div class="col-md-10 col-md-offset-1">
+                     <h4>Weights:</h4>
+                     <div class="col-md-10 col-md-offset-1">
+                           ${ws}
+                     </div>
+                 </div>
+                 <div class="col-md-10 col-md-offset-1">
+                     <h4>Category tree: ${search_terms}</h4>
+                 </div>
                  <div class="col-sm-6  col-md-offset-3 well well-sm">
                       <div class="row">
                             <div class="col-sm-2">
@@ -48,6 +60,7 @@
                                          <li><a href="/?filter=1&query=${query}">DMI</a></li>
                                          <li><a href="/?filter=2&query=${query}">IDF</a></li>
                                          <li><a href="/?filter=3&query=${query}">LTI</a></li>
+                                         <li><a href="/?filter=4&query=${query}">Lucene</a></li>
                                      </ul>
                                  </div>
                             </div>
@@ -56,6 +69,7 @@
                             </div>
                       </div>
                  </div>
+                 <#include "categories.ftl">
                  <#include "${templateName}">
           </div>
       </#if>

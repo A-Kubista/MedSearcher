@@ -6,16 +6,15 @@
 
                     <div class="row">
                         <div class="col-sm-9 ">
-                               <h2 class = "tweet_title"  id = ${article.article.id} >${article.article.title}</h2>
+                               <h3 class = "tweet_title"  id = ${article.article.id} >${article.article.title}</h2>
                         </div>
                         <div class="col-sm-3 ">
                                <p>${article.article.date}</p>
                         </div>
                     </div>
-                               <h3>${article.article.full_keys}</h3>
-                               <h3>${article.article.author}</h3>
+                               <h3>${article.article.full_keys}</h4>
                                <h4>${article.article.content}</h4>
-
+                               <h4>${article.article.author}</h4>
                      <div class="row" >
                           <div class="col-sm-6 text-center">
                                <h5>TF: ${article.TF} (${article.TFnumber})</h5>
