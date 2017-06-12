@@ -5,6 +5,7 @@ import article.ArticleController;
 import article.ArticleModel;
 import spark.Request;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -18,14 +19,27 @@ public class TextProcessingControllerTest {
     @org.junit.Test
     public void test() throws Exception {
         TextProcessingController controller = new TextProcessingController(ArticleModel.testArticles(),Dictionary.testDictionary());
-        controller.processQuery("migraine Controled study");
+        controller.processQuery("migraine treatment");
 
         TextProcessingController.sort(TextProcessingConstants.SortingType.SORT_BY_DMI, controller.getSortedArticles());
 
-        System.out.println(controller.getQuery());
-        //for(ArticleContainer as: controller.getSortedArticles()){
-        //    System.out.println(as);
-        //}
+        List<ArticleContainer> sortedArticles = controller.getSortedArticles();
+
+        for(ArticleContainer as: sortedArticles){
+            System.out.println(as);
+        }
+
+        List<Double> weights = new ArrayList<>();
+        weights.add(0.5);
+        weights.add(1.0);
+
+        TextProcessingController.changeWeights(weights,controller.getQuery(),sortedArticles,controller.getDataContainer().getDictionary());
+
+        System.out.println("\n\n\n\n");
+        for(ArticleContainer as: sortedArticles){
+            System.out.println(as);
+        }
+
 
         /*for(ArticleContainer as: controller.getSortedArticles()){
             for(Term t: controller.getDataContainer().getDictionary()){

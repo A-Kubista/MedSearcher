@@ -62,8 +62,11 @@ public class Query {
         vectorTFweighted = Indexer.timesVectors(dictionary,vectorTF,weights);
     }
 
-    public void changeWeights(SortedSet<Term> dictionary, Map<Term,Double> weights){
-        this.weights = weights;
+    public void changeWeights(SortedSet<Term> dictionary, List<Double> weights){
+        this.weights = new HashMap<>();
+        for(int i=0;i<this.indexedQuery.size();i++){
+            this.weights.put(indexedQuery.get(i),weights.get(i));
+        }
         countWeightedVectors(dictionary);
     }
 

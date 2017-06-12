@@ -31,12 +31,12 @@ public class TextProcessingController {
 
     /**
      * Zmiana wag termów w zapytania
-     * @param newWeights mapa zawierająca Termy i nowe wagi
+     * @param newWeights lista zawierająca nowe wagi (kolejność odpowiadająca kolejności Query.indexedQuery)
      * @param query procesowane zapytanie (pobrane z sesji)
      * @param sortedArticles lista artykułów (pobrana z sesji)
      * @param dictionary słownik (pobrany z sesji, można go otrzymać poprzez TextProcessingController.getDataContainer().getDictionary())
      */
-    public void changeWeights(Map<Term,Double> newWeights, Query query, List<ArticleContainer> sortedArticles, SortedSet<Term> dictionary){
+    public static void changeWeights(List<Double> newWeights, Query query, List<ArticleContainer> sortedArticles, SortedSet<Term> dictionary){
         query.changeWeights(dictionary,newWeights);
         DataContainer container = new DataContainer(sortedArticles);
         container.prepareRanking(query);
