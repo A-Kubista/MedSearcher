@@ -56,7 +56,7 @@ public class DictionarySaxHandler extends DefaultHandler {
         @Override
         public void endElement(String uri, String localName, String qName){
             if (qName.equalsIgnoreCase("DescriptorRecord")) {
-                System.out.println(tmp);
+                //System.out.println(tmp);
                 DictionaryTerm.addToMap(empList,tmp);
             }
         }

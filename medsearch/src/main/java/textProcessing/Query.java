@@ -18,8 +18,7 @@ public class Query {
     private Map<Term,Double> vectorTFweighted;
     private Map<Term,Double> vectorIDFweighted;
 
-    private Map<Term,List<DictionaryTerm>> parents;
-    private Map<Term,List<List<DictionaryTerm>>> children;
+    private List<CategoryTree> termsTrees;
 
     public Query(String queryString, Dictionary MESHDictionary, SortedSet<Term> dictionary, Map<Term,Double> idfs){
         this.queryString = queryString;
@@ -44,6 +43,17 @@ public class Query {
         for(Term t: indexedQuery){
             result = result+t+", ";
         }
+        result = result+"\n";
+        for(CategoryTree ct: this.termsTrees){
+            result = result + ct.getTitle()+":\n";
+            for(Tree t: ct.getTrees()){
+                result = result +"\t"+t.getParent()+"\n\t\t"+t.getMainTerm()+"\n";
+                for(Term child: t.getChildren()){
+                    result = result +"\t\t\t"+ child +"\n";
+                }
+            }
+        }
+
         return result;
     }
 
@@ -58,19 +68,20 @@ public class Query {
     }
 
     private void findMESHparentsAndChildrens(){
-        parents = new HashMap<>();
-        children = new HashMap<>();
+        this.termsTrees = new ArrayList<>();
         for(Term term: indexedQuery){
             if(term instanceof DictionaryTerm){
-                List<DictionaryTerm> termParents = new ArrayList();
-                List<List<DictionaryTerm>> termChildrens = new ArrayList<>();
                 DictionaryTerm dTerm = (DictionaryTerm) term;
+                CategoryTree categoryTree = new CategoryTree();
+                categoryTree.setTitle(dTerm);
                 for(String number: dTerm.getTreeIndexes()){
-                    termParents.add(MESHDictionary.findParent(number));
-                    termChildrens.add(MESHDictionary.findChildren(number));
+                    Tree tmpTree = new Tree();
+                    tmpTree.setMainTerm(dTerm);
+                    tmpTree.setParent(MESHDictionary.findParent(number));
+                    tmpTree.setChildren(MESHDictionary.findChildren(number));
+                    categoryTree.addTree(tmpTree);
                 }
-                parents.put(term,termParents);
-                children.put(term,termChildrens);
+                this.termsTrees.add(categoryTree);
             }
         }
     }

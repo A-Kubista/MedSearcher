@@ -17,15 +17,15 @@ import static org.junit.Assert.*;
 public class TextProcessingControllerTest {
     @org.junit.Test
     public void test() throws Exception {
-
         TextProcessingController controller = new TextProcessingController(ArticleModel.testArticles(),Dictionary.testDictionary());
-        controller.processQuery("migraine treatment");
+        controller.processQuery("migraine Controled study");
 
         TextProcessingController.sort(TextProcessingConstants.SortingType.SORT_BY_DMI, controller.getSortedArticles());
 
-        for(ArticleContainer as: controller.getSortedArticles()){
-            System.out.println(as);
-        }
+        System.out.println(controller.getQuery());
+        //for(ArticleContainer as: controller.getSortedArticles()){
+        //    System.out.println(as);
+        //}
 
         /*for(ArticleContainer as: controller.getSortedArticles()){
             for(Term t: controller.getDataContainer().getDictionary()){

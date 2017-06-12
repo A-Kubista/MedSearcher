@@ -48,10 +48,6 @@ public class Dictionary implements Serializable {
         return terms.getOrDefault(searchingTerm.getNormalizedName(),null);
     }
 
-    public int getSize(){
-        return terms.size();
-    }
-
     public String toString(){
         String res = "";
         for(Map.Entry<String,DictionaryTerm> term: this.terms.entrySet()){
@@ -73,6 +69,7 @@ public class Dictionary implements Serializable {
     }
 
     public DictionaryTerm findParent(String termNumber){
+        if(termNumber.matches("^[0-9]+$")) return null;
         String searchingNumber = termNumber.replaceAll("\\.[0-9]+$","");
         for(Map.Entry<String,DictionaryTerm> term: this.terms.entrySet()){
             for(String number: term.getValue().getTreeIndexes()){
@@ -92,7 +89,7 @@ public class Dictionary implements Serializable {
         dic.addTerm(term);
 
         term = new DictionaryTerm("Headache");
-        term.addTreeIndex("G12");
+        term.addTreeIndex("G11");
         dic.addTerm(term);
 
         term = new DictionaryTerm("Migraine");
@@ -115,11 +112,21 @@ public class Dictionary implements Serializable {
 
     public void printDictionary(){
         List<DictionaryTerm> res = new ArrayList<>();
+        int i = 0;
         for(Map.Entry<String,DictionaryTerm> element: terms.entrySet()){
             if(!res.contains(element.getValue())){
-            //    System.out.println(element.getValue());
+                System.out.println(i+") "+element.getValue());
                 res.add(element.getValue());
+                i++;
             }
         }
+    }
+
+    public int getSize(){
+        Set<DictionaryTerm> res = new HashSet<>();
+        for(Map.Entry<String,DictionaryTerm> element: terms.entrySet()){
+            res.add(element.getValue());
+        }
+        return res.size();
     }
 }
