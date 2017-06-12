@@ -42,12 +42,10 @@
                  </div>
                  <div class="col-md-10 col-md-offset-1">
                      <h4>Weights:</h4>
-                     <div class="col-md-10 col-md-offset-1">
-                           ${ws}
-                     </div>
+                      <#include "factors.ftl">
                  </div>
                  <div class="col-md-10 col-md-offset-1">
-                     <h4>Category tree:}</h4>
+                     <h4>Category tree:</h4>
                      <#include "categories.ftl">
                  </div>
                  <div class="col-sm-6  col-md-offset-3 well well-sm margin-top-high">

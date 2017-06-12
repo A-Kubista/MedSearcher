@@ -4,17 +4,24 @@
           <a href="/?query=${root.title.name}">${root.title.name}</a>
           <p> </p>
            <#list root.trees as tree>
-                 <div class="col-sm-11 col-md-offset-1" >
-                     <a href="/?query=${tree.parent.name}">${tree.parent.name}</a>
-                 </div>
-                 <div class="col-sm-10 col-md-offset-2" >
-                    <a href="/?query=${tree.mainTerm.name}">${tree.mainTerm.name}</a>
-                 </div>
-                 <#list tree.children as child>
-                     <div class="col-sm-9 col-md-offset-3" >
-                        <a href="/?query=${child.name}">${child.name}</a>
-                     </div>
-                 </#list>
+                 <ul >
+                     <li>
+                         <a href="/?query=${tree.parent.name}">${tree.parent.name}</a>
+                     </li>
+                     <ul >
+                          <li>
+                             <a href="/?query=${tree.mainTerm.name}">${tree.mainTerm.name}</a>
+                          </li>
+
+                         <#list tree.children as child>
+                               <ul >
+                                  <li>
+                                    <a href="/?query=${child.name}">${child.name}</a>
+                                  </li>
+                              </ul >
+                         </#list>
+                     </ul >
+                 </ul >
            </#list>
        </div>
     </#list>

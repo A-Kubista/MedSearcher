@@ -20,12 +20,14 @@
                                <h5>TF: ${article.TF} (${article.TFnumber})</h5>
                                 <h5>TF-IDF: ${article.IDF} (${article.IDFnumber})</h5>
                           </div>
-                          <div class="col-sm-6 .text-center">
+                          <div class="col-sm-6 text-center">
                                <h5>DMI: ${article.DMI} (${article.DMInumber})</h5>
                                 <h5>LTI: ${article.LTI} (${article.LTInumber})</h5>
                           </div>
                       </div>
+                       <div class="col-sm-12 text-center">
                          <h5>Lucene: ${article.test} (${article.test_two})</h5>
+                       </div>
 
              </div>
        </div>

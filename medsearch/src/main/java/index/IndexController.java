@@ -71,34 +71,44 @@ public class IndexController {
                 filter = "TF";
             }
 
+            List<Double> weigths  = getWeigthsFromRequest(request);
 
             TextProcessingController mainController = prepareData(request);
-            //mainController.processQuery(query);
             mainController.processQuery(query);
             System.out.println("Przeprocesowano zapytanie...");
 
-            ArrayList<QueryWeight> query_weights = new ArrayList<>();
+            List<QueryWeight> query_weights = new ArrayList<>();
             StringBuilder query_terms_builder = new StringBuilder();
-            StringBuilder weights_builder = new StringBuilder();
+          //  StringBuilder weights_builder = new StringBuilder();
+            int id = 0;
+            double weigth = 0;
                 for (Term query_term : mainController.getQuery().getIndexedQuery()) {
-                    QueryWeight query_weigth = new QueryWeight(query_term.getName(), mainController.getQuery().getWeights().get(query_term));
-                    query_weights.add(query_weigth);
+                    if(weigths.size() > id)
+                        weigth = weigths.get(id);
+                    else
+                        weigth =  mainController.getQuery().getWeights().get(query_term);
 
-                    weights_builder.append("<p>");
-                    weights_builder.append(query_term.getName());
-                    weights_builder.append(mainController.getQuery().getWeights().get(query_term));
-                    weights_builder.append("</p>");
+                    QueryWeight query_weight = new QueryWeight(query_term.getName(),weigth,id);
+                    query_weights.add(query_weight);
+
                     query_terms_builder.append(" ");
                     query_terms_builder.append(query_term.getName());
                     query_terms_builder.append(",");
+                    id++;
                 }
+
             query_terms_builder.deleteCharAt(query_terms_builder.length() - 1);
+
+            if(weigths.size() > 0 ){
+                TextProcessingController.changeWeights(weigths,mainController.getQuery(),mainController.getSortedArticles(),mainController.getDataContainer().getDictionary());
+            }
+
+
             model.put("query",mainController.getQuery().getQueryString());
             model.put("sort_text", filter);
             model.put("search_terms",query_terms_builder.toString());
-            model.put("ws",weights_builder.toString());
+            model.put("factors",query_weights);
             model.put("roots",mainController.getQuery().getTermsTrees());
-     //      model.put("qw",query_weights);
             model.put("articles",mainController.getSortedArticles());
         }
 
@@ -108,6 +118,19 @@ public class IndexController {
 
         return ViewUtil.render(request, model, Path.Template.INDEX);
     };
+
+    private static List<Double> getWeigthsFromRequest(Request request) {
+
+        // brzydkie zalozenie ze wczyta je w odpowiendiej kolejnosci
+
+        List<Double> result = new ArrayList<>();
+        for (String param:request.queryParams()) {
+         if(param.startsWith("factor_")){
+             result.add(Double.parseDouble(request.queryParams(param)));
+         }
+        }
+        return result;
+    }
 
     private static TextProcessingController prepareData(Request request){
         System.out.println("Start ");
