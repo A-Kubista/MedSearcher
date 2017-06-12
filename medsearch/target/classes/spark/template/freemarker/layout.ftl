@@ -47,9 +47,10 @@
                      </div>
                  </div>
                  <div class="col-md-10 col-md-offset-1">
-                     <h4>Category tree: ${search_terms}</h4>
+                     <h4>Category tree:}</h4>
+                     <#include "categories.ftl">
                  </div>
-                 <div class="col-sm-6  col-md-offset-3 well well-sm">
+                 <div class="col-sm-6  col-md-offset-3 well well-sm margin-top-high">
                       <div class="row">
                             <div class="col-sm-2">
                                  <div class="dropdown">
@@ -69,7 +70,6 @@
                             </div>
                       </div>
                  </div>
-                 <#include "categories.ftl">
                  <#include "${templateName}">
           </div>
       </#if>

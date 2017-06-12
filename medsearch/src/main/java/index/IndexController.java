@@ -97,7 +97,7 @@ public class IndexController {
             model.put("sort_text", filter);
             model.put("search_terms",query_terms_builder.toString());
             model.put("ws",weights_builder.toString());
-            model.put("queries_indexed",mainController.getQuery().getIndexedQuery());
+            model.put("roots",mainController.getQuery().getTermsTrees());
      //      model.put("qw",query_weights);
             model.put("articles",mainController.getSortedArticles());
         }
