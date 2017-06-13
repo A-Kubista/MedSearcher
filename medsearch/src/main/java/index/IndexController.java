@@ -129,10 +129,17 @@ public class IndexController {
         // brzydkie zalozenie ze wczyta je w odpowiendiej kolejnosci
 
         List<Double> result = new ArrayList<>();
+        List<String> params = new ArrayList<>();
         for (String param:request.queryParams()) {
          if(param.startsWith("factor_")){
-             result.add(Double.parseDouble(request.queryParams(param)));
+             params.add(param);
+             System.out.println("Found "+param);
          }
+        }
+
+        java.util.Collections.sort(params);
+        for(String param: params){
+            result.add(Double.parseDouble(request.queryParams(param)));
         }
         return result;
     }
