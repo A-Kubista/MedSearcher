@@ -106,7 +106,7 @@ public class ArticleSaxHandler extends DefaultHandler {
                     emp.setTitle(new String(ch, start, length));
                     title = false;
                 } else if (last_name) {
-                    emp.setAuthor(emp.getAuthor(this) + new String(ch, start, length));
+                    emp.setAuthor(emp.getAuthor(this) +" "+ new String(ch, start, length));
                     last_name = false;
                 } else if (date) {
                     String tmp = new String(ch, start, length);

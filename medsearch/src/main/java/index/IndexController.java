@@ -100,8 +100,10 @@ public class IndexController {
             query_terms_builder.deleteCharAt(query_terms_builder.length() - 1);
 
             if(weigths.size() > 0 ){
-                TextProcessingController.changeWeights(weigths,mainController.getQuery(),mainController.getSortedArticles(),mainController.getDataContainer().getDictionary());
+                mainController.changeWeights(weigths);
             }
+
+            mainController.sort(filter_int);
 
 
             model.put("query",mainController.getQuery().getQueryString());
@@ -110,6 +112,11 @@ public class IndexController {
             model.put("factors",query_weights);
             model.put("roots",mainController.getQuery().getTermsTrees());
             model.put("articles",mainController.getSortedArticles());
+
+            for(ArticleContainer ac: mainController.getSortedArticles()){
+                System.out.println(ac+"\n\n");
+            }
+
         }
 
 
@@ -124,10 +131,16 @@ public class IndexController {
         // brzydkie zalozenie ze wczyta je w odpowiendiej kolejnosci
 
         List<Double> result = new ArrayList<>();
+        List<String> params = new ArrayList<>();
         for (String param:request.queryParams()) {
          if(param.startsWith("factor_")){
-             result.add(Double.parseDouble(request.queryParams(param)));
+             params.add(param);
          }
+        }
+
+        java.util.Collections.sort(params);
+        for(String param: params){
+            result.add(Double.parseDouble(request.queryParams(param)));
         }
         return result;
     }
@@ -135,18 +148,27 @@ public class IndexController {
     private static TextProcessingController prepareData(Request request){
         System.out.println("Start ");
         ArticleController articleController = new ArticleController();
-        Dictionary MESHdictionary;
-        List<ArticleModel> articleList = articleController.getProcessedArticles(request);
-        //List<ArticleModel> articleList = ArticleModel.testArticles();
-        System.out.println("Wczytano artykuły...");
-        MESHdictionary = request.session().attribute("dictionary");
 
+        List<ArticleModel> articleList;
+        Dictionary MESHdictionary;
+
+        articleList = request.session().attribute("allArticles");
+        if(articleList==null){
+            articleList = articleController.getProcessedArticles(request);
+            System.out.println("Wczytano "+articleList.size() +" artykuły...");
+            request.session().attribute("allArticles",articleList);
+            System.out.println("Zserializowano artykuły...");
+        }
+        else System.out.println("Pobrano z sesji "+articleList.size() +" artykuły...");
+
+        MESHdictionary = request.session().attribute("dictionary");
         if(MESHdictionary == null) {
             MESHdictionary = new Dictionary();
-            //request.session().attribute("dictionary",MESHdictionary);
-         //   MESHdictionary = Dictionary.testDictionary();
+            System.out.println("Wczytano słownik ("+MESHdictionary.getTerms().size()+" kluczy)...");
+            request.session().attribute("dictionary",MESHdictionary);
+            System.out.println("Zserializowano słownik...");
         }
-        System.out.println("Wczytano słownik...");
+        else System.out.println("Pobrano z sesji słownik ("+MESHdictionary.getTerms().size()+" kluczy)...");
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
         System.out.println("Utworzono kontroler...");

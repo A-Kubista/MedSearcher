@@ -27,6 +27,10 @@ public class ArticleContainer {
 
     private Map<Term,Double> vectorDMI;
 
+    private double TFtitle = 0.0;
+    private double TFabstract = 0.0;
+    private double TFkeys = 0.0;
+
     private double IDF = -1.0;
     private double TF = -1.0;
     private double DMI = -1.0;
@@ -88,15 +92,21 @@ public class ArticleContainer {
 
     public void countMeasurements(Query query){
         TF = Indexer.cosineSimilarity(this.getVectorTF(),query.getVectorTFweighted());
-        IDF = Indexer.cosineSimilarity(this.getVectorIDF(),query.getVectorIDFweighted());
+        IDF = Indexer.cosineSimilarity(this.getVectorIDF(),query.getVectorTFweighted());
         DMI = Indexer.cosineSimilarity(this.getVectorDMI(),query.getVectorTFweighted());
         LTI = Indexer.countLTI(this.getVectorTFKeyWords(),this.getVectorTFContent(),this.getVectorTFTitle(),query.getVectorTFweighted());
+
+        TFtitle = Indexer.cosineSimilarity(this.getVectorTFTitle(),query.getVectorTFweighted());
+        TFabstract = Indexer.cosineSimilarity(this.getVectorTFContent(),query.getVectorTFweighted());
+        TFkeys = Indexer.cosineSimilarity(this.getVectorTFKeyWords(),query.getVectorTFweighted());
     }
 
 
     public String toString(){
         return "Lucene: "+Lucene+" ("+LuceneNumber+")\t\tTF: "+TF+" ("+TFnumber+")\t\tIDF:"+IDF+" ("+IDFnumber+")\tDMI: "+
-                DMI+" ("+DMInumber+")\tLTI: "+LTI+" ("+LTInumber+")\n" +article;
+                DMI+" ("+DMInumber+")\tLTI: "+LTI+" ("+LTInumber+")\n"
+                + "TF title: "+this.TFtitle+"\tTF content: "+this.TFabstract+"\tTF keys: "+this.TFkeys+"\n"
+                +article;
     }
 
     public static void sortArticleContainers(int typeOfSorting, List<ArticleContainer> articles){

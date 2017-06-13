@@ -119,14 +119,14 @@ public class DataContainer {
             for(Term t: dictionary){
                 Double number = terms.get(t);
                 if(number.doubleValue()>0.0){
-                    vectorTF.computeIfPresent(t,(k,v)->v+number);
+                    vectorTF.computeIfPresent(t,(k,v)->v+number.doubleValue());
                     vectorIDF.computeIfPresent(t,(k,v)->v+1.0);
                 }
             }
         }
 
         for(Term t: dictionary){
-            vectorIDF.computeIfPresent(t,(k,v)->Math.log(v==0.0 ? 1.0 : ((double) dictionary.size())/v));
+            vectorIDF.computeIfPresent(t,(k,v)->(1.0 + Math.log(v==0.0 ? 1.0 : ((double) sortedArticles.size())/v)));
         }
 
         for (ArticleContainer article: sortedArticles) {

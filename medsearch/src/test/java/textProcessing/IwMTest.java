@@ -20,6 +20,8 @@ public class IwMTest {
         System.out.println("QUERY: informatyka, medycyna");
         for(ArticleContainer as: controller.getSortedArticles()){
             System.out.println(as);
+            //System.out.println(as.getVectorTF());
+            //System.out.println(as.getVectorIDF());
         }
 
         controller.processQuery("informatyka, medycyna, komputer");
@@ -28,5 +30,9 @@ public class IwMTest {
         for(ArticleContainer as: controller.getSortedArticles()){
             System.out.println(as);
         }
+
+        //System.out.println("\n\n\n");
+        //System.out.println(controller.getDataContainer().getVectorTF()+"\n");
+        //System.out.println(controller.getDataContainer().getVectorIDF()+"\n");
     }
 }
