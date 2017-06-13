@@ -12,8 +12,8 @@
               </div>
            </div>
         </#list>
-          <div class="col-md-0 hidden">
-        <input  -sm class="form-control" type=text  name='query' value='${query}' placeholder="Search" />
+          <div class="col-md-1 hidden">
+             <input  -sm class="form-control" type=text  name='query' value='${query}' placeholder="Search" />
         </div>
         <div class="col-md-4">
              <input  type='submit' value='Change Weights' class="btn btn-primary"/>
