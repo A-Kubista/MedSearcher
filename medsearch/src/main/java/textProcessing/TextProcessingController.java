@@ -43,6 +43,15 @@ public class TextProcessingController {
     }
 
     /**
+     * Zmiana wag termów w zapytania
+     * @param newWeights lista zawierająca nowe wagi (kolejność odpowiadająca kolejności Query.indexedQuery)
+     */
+    public void changeWeights(List<Double> newWeights){
+        query.changeWeights(this.dataContainer.getDictionary(),newWeights);
+        dataContainer.prepareRanking(query);
+    }
+
+    /**
      * Zmiana sposobu sortowania
      * @param sortingType nowy typ sortowania
      * @param sortedArticles lista ArticleContainer do posortowania (pobrana z sesji)

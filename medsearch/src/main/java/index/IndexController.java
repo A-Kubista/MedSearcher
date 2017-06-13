@@ -100,8 +100,10 @@ public class IndexController {
             query_terms_builder.deleteCharAt(query_terms_builder.length() - 1);
 
             if(weigths.size() > 0 ){
-                TextProcessingController.changeWeights(weigths,mainController.getQuery(),mainController.getSortedArticles(),mainController.getDataContainer().getDictionary());
+                mainController.changeWeights(weigths);
             }
+
+            mainController.sort(filter_int);
 
 
             model.put("query",mainController.getQuery().getQueryString());
@@ -133,7 +135,6 @@ public class IndexController {
         for (String param:request.queryParams()) {
          if(param.startsWith("factor_")){
              params.add(param);
-             System.out.println("Found "+param);
          }
         }
 
