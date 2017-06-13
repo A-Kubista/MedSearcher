@@ -110,6 +110,11 @@ public class IndexController {
             model.put("factors",query_weights);
             model.put("roots",mainController.getQuery().getTermsTrees());
             model.put("articles",mainController.getSortedArticles());
+
+            for(ArticleContainer ac: mainController.getSortedArticles()){
+                System.out.println(ac+"\n\n");
+            }
+
         }
 
 
@@ -135,18 +140,27 @@ public class IndexController {
     private static TextProcessingController prepareData(Request request){
         System.out.println("Start ");
         ArticleController articleController = new ArticleController();
-        Dictionary MESHdictionary;
-        List<ArticleModel> articleList = articleController.getProcessedArticles(request);
-        //List<ArticleModel> articleList = ArticleModel.testArticles();
-        System.out.println("Wczytano artykuły...");
-        MESHdictionary = request.session().attribute("dictionary");
 
+        List<ArticleModel> articleList;
+        Dictionary MESHdictionary;
+
+        articleList = request.session().attribute("allArticles");
+        if(articleList==null){
+            articleList = articleController.getProcessedArticles(request);
+            System.out.println("Wczytano "+articleList.size() +" artykuły...");
+            request.session().attribute("allArticles",articleList);
+            System.out.println("Zserializowano artykuły...");
+        }
+        else System.out.println("Pobrano z sesji "+articleList.size() +" artykuły...");
+
+        MESHdictionary = request.session().attribute("dictionary");
         if(MESHdictionary == null) {
             MESHdictionary = new Dictionary();
-            //request.session().attribute("dictionary",MESHdictionary);
-         //   MESHdictionary = Dictionary.testDictionary();
+            System.out.println("Wczytano słownik ("+MESHdictionary.getTerms().size()+" kluczy)...");
+            request.session().attribute("dictionary",MESHdictionary);
+            System.out.println("Zserializowano słownik...");
         }
-        System.out.println("Wczytano słownik...");
+        else System.out.println("Pobrano z sesji słownik ("+MESHdictionary.getTerms().size()+" kluczy)...");
 
         TextProcessingController textProcessingController = new TextProcessingController(articleList, MESHdictionary);
         System.out.println("Utworzono kontroler...");
