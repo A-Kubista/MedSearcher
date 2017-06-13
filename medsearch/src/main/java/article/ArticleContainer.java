@@ -88,7 +88,7 @@ public class ArticleContainer {
 
     public void countMeasurements(Query query){
         TF = Indexer.cosineSimilarity(this.getVectorTF(),query.getVectorTFweighted());
-        IDF = Indexer.cosineSimilarity(this.getVectorIDF(),query.getVectorIDFweighted());
+        IDF = Indexer.cosineSimilarity(this.getVectorIDF(),query.getVectorTFweighted());
         DMI = Indexer.cosineSimilarity(this.getVectorDMI(),query.getVectorTFweighted());
         LTI = Indexer.countLTI(this.getVectorTFKeyWords(),this.getVectorTFContent(),this.getVectorTFTitle(),query.getVectorTFweighted());
     }
